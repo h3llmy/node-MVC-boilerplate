@@ -72,7 +72,7 @@ export const uploadAudio = multer({
 
 export const uploadApplication = multer({
     fileFilter: (req, file, cb) => {
-      if (file.mimetype.split("/")[0] == "audio") {
+      if (file.mimetype.split("/")[0] == "application") {
         cb(null, true);
     } else {
         cb(null, false);
