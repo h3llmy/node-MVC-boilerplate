@@ -19,7 +19,10 @@ const router = express.Router()
 export default router`;
 
 try {
-  if (!process.argv[2]) {
+  if (fs.existsSync(fullPath)) {
+    throw `route ${fileName} has already exsist`
+  }
+    if (!process.argv[2]) {
       throw 'file name is required'
   }
   fs.writeFile(fullPath, fileContent, (err) => {

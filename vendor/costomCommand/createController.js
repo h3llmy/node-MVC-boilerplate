@@ -87,6 +87,9 @@ export const remove = async (req, res) => {
 }`;
 
 try {
+  if (fs.existsSync(fullPath)) {
+    throw `controller ${fileName} has already exsist`
+  }
     if (!process.argv[2]) {
         throw 'file name is required'
     }

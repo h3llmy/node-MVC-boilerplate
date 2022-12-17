@@ -39,13 +39,17 @@ const ${newinputName} = mongoose.model('${inputName}', ${inputName}Schema)
 export default ${newinputName}`;
 
 try {
-  if (!process.argv[2]) {
-      throw 'file name is required'
+  if (fs.existsSync(fullPath)) {
+    throw `model ${fileName} has already exsist`
   }
-  fs.writeFile(fullPath, fileContent, (err) => {
-    if (err) throw err;
-    console.log(`model ${fileName} has been created!`);
-  });
+    if (!process.argv[2]) {
+        throw 'file name is required'
+    }
+    fs.writeFile(fullPath, fileContent, (err) => {
+      if (err) throw err;
+      console.log(`model ${fileName} has been created!`);
+    });
+
 } catch (error) {
   console.error(error);
 }
