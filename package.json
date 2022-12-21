@@ -8,7 +8,8 @@
     "test": "jest",
     "create:controller": "node ./vendor/costomCommand/createController.js",
     "create:model": "node ./vendor/costomCommand/createModel.js",
-    "create:route": "node ./vendor/costomCommand/createRoute.js"
+    "create:route": "node ./vendor/costomCommand/createRoute.js",
+    "add:fileUpload": "node ./vendor/costomCommand/addFileUpload.js"
   },
   "jest": {
     "testEnvironment": "node"

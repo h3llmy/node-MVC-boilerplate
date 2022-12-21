@@ -81,10 +81,11 @@ export const remove = async (req, res) => {
   }
 }
 
-export const imageUpload = async (req, res) => {
-  try {
-    res.json(req.file)
-  } catch (error) {
-      res.status(400).json(errorResponse(error))
-  }
+export const mantapFileUpload = async (req, res) => {
+    try {
+        const filePath = process.env.BASE_URL + req.file.destination.split("/")[1] + "/" + req.file.filename
+    res.json(successResponse(filePath))
+    } catch (error) {
+        res.status(400).json(errorResponse(error))
+    }
 }

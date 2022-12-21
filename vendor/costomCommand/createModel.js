@@ -7,23 +7,23 @@ const fullPath =  "'current', ../../model/" + fileName
 const fileContent = `import mongoose from 'mongoose'
 
 const ${inputName}Schema = new mongoose.Schema(
-    {
-        name : {
-            type: String,
-            require : true,
-            unique : [true, 'name must be unique']
-        },
-        isActive : {
-          type : Boolean,
-          default : true
-        },
-        deletedAt: {
-        type: Date
-        }
+  {
+    name : {
+      type: String,
+      require : true,
+      unique : [true, 'name must be unique']
     },
-    {
-        timestamps: true
+    isActive : {
+      type : Boolean,
+      default : true
+    },
+    deletedAt: {
+      type: Date
     }
+  },
+  {
+      timestamps: true
+  }
 )
 
 ${inputName}Schema.pre('countDocuments', function () {
