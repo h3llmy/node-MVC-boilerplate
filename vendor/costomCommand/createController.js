@@ -23,7 +23,12 @@ export const add = async (req, res) => {
   
 export const list = async (req, res) => {
   try {
-    const example = await ${newinputName}.find({}, {}, paginations(req.query))
+    let example = []
+    if (req.auth.status == "visitors") {
+      example = await ${newinputName}.find({ isActive : true }, {}, paginations(req.query))
+    }else {
+      example = await ${newinputName}.find({}, {}, paginations(req.query))
+    }
     if (!example) {
       throw 'Example not found.'
     }

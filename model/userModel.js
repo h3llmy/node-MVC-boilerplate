@@ -57,15 +57,15 @@ userSchema.methods.matchPassword = function (enteredPassword) {
 }
 
 userSchema.pre('countDocuments', function () {
-this.where({ deletedAt: null })
+    this.where({ deletedAt: null })
 })
 
 userSchema.pre('find', function () {
-this.where({ deletedAt: null })
+    this.where({ deletedAt: null })
 })
 
 userSchema.pre('findOne', function () {
-this.where({ deletedAt: null })
+    this.where({ deletedAt: null })
 })
 
 const User = mongoose.model('user', userSchema)

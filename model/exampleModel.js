@@ -7,6 +7,10 @@ const example = new mongoose.Schema(
             require : true,
             unique : [true, 'name must be unique']
         },
+        isActive : {
+            type : Boolean,
+            default : true
+        },
         deletedAt: {
         type: Date
         }

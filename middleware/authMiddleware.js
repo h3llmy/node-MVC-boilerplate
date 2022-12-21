@@ -37,3 +37,34 @@ export const isAdmin = async (req, res, next) => {
         next(new Error(error));
     }
 }
+
+export const visitors = async (req, res, next) => {
+    try {
+        if (!req.headers.authorization) {
+            const status = { status: "visitors" }
+            req.auth = status
+        }else {
+            const authorization = req.headers.authorization
+            if (authorization && authorization.startsWith('Bearer')){
+                const token = authorization.split(' ')[1]
+                const payload = decodeToken(token)
+                if (payload.type != "login") {
+                    throw "invalid authorization"
+                }
+                const findUser = await User.findById({ _id : payload.id }).select('-password').select('-otp')
+                if (!findUser) {
+                    throw "invalid authorization"
+                }
+                if (findUser.isActive == false) {
+                    throw "invalid authorization"
+                }
+                
+                req.auth = findUser
+                
+            }
+        }
+        next()
+    } catch (error) {
+        next(new Error(error));
+    }
+}

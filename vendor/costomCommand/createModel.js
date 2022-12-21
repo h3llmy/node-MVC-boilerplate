@@ -8,10 +8,14 @@ const fileContent = `import mongoose from 'mongoose'
 
 const ${inputName}Schema = new mongoose.Schema(
     {
-        example : {
+        name : {
             type: String,
             require : true,
             unique : [true, 'name must be unique']
+        },
+        isActive : {
+          type : Boolean,
+          default : true
         },
         deletedAt: {
         type: Date
