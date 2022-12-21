@@ -41,7 +41,12 @@ export const isAdmin = async (req, res, next) => {
 export const isPublic = async (req, res, next) => {
     try {
         if (!req.headers.authorization) {
-            const status = { status: "public" }
+            const status = {
+                status: "public",
+                filter : {
+                    isActive : true
+                }
+            }
             req.auth = status
         }else {
             const authorization = req.headers.authorization
