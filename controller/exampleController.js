@@ -20,8 +20,7 @@ export const list = async (req, res) => {
     let example = []
     if (req.auth.status == "admin") {
       example = await Example.find({}, {}, paginations(req.query))
-    }
-    else {
+    } else {
       example = await Example.find({ isActive : true }, {}, paginations(req.query))
     }
     if (!example) {
