@@ -18,11 +18,11 @@ export const add = async (req, res) => {
 export const list = async (req, res) => {
   try {
     let example = []
-    if (req.auth.status == "visitors") {
-      example = await Example.find({ isActive : true }, {}, paginations(req.query))
+    if (req.auth.status == "admin") {
+      example = await Example.find({}, {}, paginations(req.query))
     }
     else {
-      example = await Example.find({}, {}, paginations(req.query))
+      example = await Example.find({ isActive : true }, {}, paginations(req.query))
     }
     if (!example) {
       throw 'Example not found.'
