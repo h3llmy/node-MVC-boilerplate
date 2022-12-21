@@ -16,16 +16,16 @@ const example = new mongoose.Schema(
     }
 )
 
-example.pre('countDocuments', () => {
-this.where({ deletedAt: null })
+example.pre('countDocuments', function () {
+    this.where({ deletedAt: null })
 })
 
-example.pre('find', () => {
-this.where({ deletedAt: null })
+example.pre('find', function () {
+    this.where({ deletedAt: null })
 })
 
-example.pre('findOne', () => {
-this.where({ deletedAt: null })
+example.pre('findOne', function () {
+    this.where({ deletedAt: null })
 })
 
 const Example = mongoose.model('example', example)

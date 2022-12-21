@@ -22,16 +22,16 @@ const ${inputName}Schema = new mongoose.Schema(
     }
 )
 
-${inputName}Schema.pre('countDocuments', () => {
-this.where({ deletedAt: null })
+${inputName}Schema.pre('countDocuments', function () {
+  this.where({ deletedAt: null })
 })
 
-${inputName}Schema.pre('find', () => {
-this.where({ deletedAt: null })
+${inputName}Schema.pre('find', function () {
+  this.where({ deletedAt: null })
 })
 
-${inputName}Schema.pre('findOne', () => {
-this.where({ deletedAt: null })
+${inputName}Schema.pre('findOne', function () {
+  this.where({ deletedAt: null })
 })
 
 const ${newinputName} = mongoose.model('${inputName}', ${inputName}Schema)

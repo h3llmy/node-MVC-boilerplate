@@ -16,15 +16,15 @@ const productSchema = new mongoose.Schema(
     }
 )
 
-productSchema.pre('countDocuments', () => {
+productSchema.pre('countDocuments', function () {
 this.where({ deletedAt: null })
 })
 
-productSchema.pre('find', () => {
+productSchema.pre('find', function () {
 this.where({ deletedAt: null })
 })
 
-productSchema.pre('findOne', () => {
+productSchema.pre('findOne', function () {
 this.where({ deletedAt: null })
 })
 

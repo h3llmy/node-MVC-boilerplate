@@ -52,19 +52,19 @@ userSchema.pre('save', function (next) {
     })
 })
   
-userSchema.methods.matchPassword = (enteredPassword) => {
+userSchema.methods.matchPassword = function (enteredPassword) {
     return bcrypt.compareSync(enteredPassword, this.password)
 }
 
-userSchema.pre('countDocuments', () => {
+userSchema.pre('countDocuments', function () {
 this.where({ deletedAt: null })
 })
 
-userSchema.pre('find', () => {
+userSchema.pre('find', function () {
 this.where({ deletedAt: null })
 })
 
-userSchema.pre('findOne', () => {
+userSchema.pre('findOne', function () {
 this.where({ deletedAt: null })
 })
 
