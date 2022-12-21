@@ -38,10 +38,10 @@ export const isAdmin = async (req, res, next) => {
     }
 }
 
-export const visitors = async (req, res, next) => {
+export const isPublic = async (req, res, next) => {
     try {
         if (!req.headers.authorization) {
-            const status = { status: "visitors" }
+            const status = { status: "public" }
             req.auth = status
         }else {
             const authorization = req.headers.authorization
