@@ -3,11 +3,11 @@
 ## **FILE UPLOAD MIDDLEWARE WITH MULTER**
 
 ```
-npm run add:imageUpload (controller file name)
+npm run add:fileUpload (controller file name)
 ```
 
-to create image upload controller if file not exsit or add image upload function when file is exsit based on controller file name.
-don't forget to add the middleware
+to create file upload controller if file not exsit or add image upload function when file is exsit based on controller file name.
+don't forget to add the middleware in route
 
 ## **CREATE MODEL**
 
