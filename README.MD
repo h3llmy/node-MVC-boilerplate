@@ -50,10 +50,10 @@ phoneCheck(value to check)
 this function to check value is phone number that
 
 - must 11 - 14 char
-- can start with 0 / +62
+- must start with 0 / +62
 - must number
 
-(return Boolean)
+this function will return Boolean (true/false)
 
 ## **JWTTOKEN**
 
