@@ -5,7 +5,7 @@ const fileName = process.argv[2] + "Route.js";
 const fullPath =  "'current', ../../route/v1/" + fileName
 const filePath2 = "'current', ../../route/route.js";
 const fileContent = `import express from 'express'
-import { add, list, detail, update, remove, imageUpload } from '../../controller/${inputName}Controller.js'
+import { add, list, detail, update, remove } from '../../controller/${inputName}Controller.js'
 import { auth, isAdmin } from '../../middleware/authMiddleware.js'
 
 const router = express.Router()
