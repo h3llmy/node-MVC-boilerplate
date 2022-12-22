@@ -1,8 +1,6 @@
-## **NODE JS TEMPELATE**
+## **`COSTOM COMMAND`**
 
-## **COSTOM COMMAND**
-
-## **`FILE UPLOAD MIDDLEWARE WITH MULTER`**
+## **FILE UPLOAD MIDDLEWARE WITH MULTER**
 
 ```
 npm run add:imageUpload (controller file name)
@@ -11,7 +9,7 @@ npm run add:imageUpload (controller file name)
 to create image upload controller if file not exsit or add image upload function when file is exsit based on controller file name.
 don't forget to add the middleware
 
-## **`CREATE MODEL`**
+## **CREATE MODEL**
 
 ```
 npm run create:model (model file name)
@@ -19,7 +17,7 @@ npm run create:model (model file name)
 
 to create basic CRUD model based on model file name
 
-## **`CREATE CONTROLLER`**
+## **CREATE CONTROLLER**
 
 ```
 npm run create:controller (controller file name)
@@ -27,13 +25,15 @@ npm run create:controller (controller file name)
 
 to create basic CRUD controller based on controller file name
 
-## **`CREATE ROUTE`**
+## **CREATE ROUTE**
 
 ```
 npm run create:route (rute file name)
 ```
 
 to create basic CRUD route based on route file name
+
+## **`COSTOM FUNCTIONS`**
 
 ## **INPUT CHECK**
 
@@ -75,7 +75,7 @@ decodeToken(jwt token to decode)
 
 this function will decode jwt token base on env ACCESS_TOKEN_SECRET
 
-## **`NODE MAILLER`**
+## **NODE MAILLER**
 
 ```
 nodeMailler({
@@ -87,7 +87,7 @@ html: 'the email message'
 this function will send email base on env
 ```
 
-## **`UNIQUE ARRAY`**
+## **UNIQUE ARRAY**
 
 ```
 uniqueArray(array there has duplicate value)
@@ -95,7 +95,7 @@ uniqueArray(array there has duplicate value)
 
 this function will return non duplicate array
 
-## **`PAGINATION`**
+## **PAGINATION**
 
 ```
 mongooseModel.find({you can add fillter here}, {}, paginations(req.query))
@@ -134,7 +134,7 @@ res.status(some status code).json(errorResponse(error))
 
 this for returning error response when the return is error
 
-## **CORS ORIGIN**
+## **`CORS ORIGIN`**
 
 in env there has "CORS_ORIGIN" this value must be array of string for allowing what domain can access your api.
 this cors origin useing white list system
