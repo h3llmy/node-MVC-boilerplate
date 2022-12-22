@@ -1,7 +1,6 @@
 import fs from 'fs';
 
 const inputName = process.argv[2]
-const controllerName = process.argv[3]
 const fileName = process.argv[3] + "Controller.js";
 const fullPath =  "'current', ../../controller/" + fileName
 
@@ -49,6 +48,11 @@ try {
               }
               if (!fileData2.includes(`dotenv.config()`)) {
                 fileData2 = fileData2.replace(`import dotenv from "dotenv"`, addEnvConvig)
+              }
+              if (!fileData2.includes(`dotenv.config()`) && !fileData2.includes(`dotenv.config()`)) {
+                console.log("mantap");
+                fileData2 = fileData2.replace(`from "../vendor/response.js";`, `from "../vendor/response.js";\n` + addEnvConvig)
+                console.log(fileData2);
               }
 
               const appendText = fileData2 + fileContent

@@ -3,7 +3,7 @@
 ## **FILE UPLOAD MIDDLEWARE WITH MULTER**
 
 ```
-npm run add:fileUpload (controller file name)
+npm run add:fileUpload (function name) (controller file name)
 ```
 
 to create file upload controller if file not exsit or add image upload function when file is exsit based on controller file name.
