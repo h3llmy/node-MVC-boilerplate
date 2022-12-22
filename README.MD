@@ -1,5 +1,7 @@
 ## **NODE JS TEMPELATE**
 
+## **COSTOM COMMAND**
+
 ## **`FILE UPLOAD MIDDLEWARE WITH MULTER`**
 
 ```
@@ -8,8 +10,6 @@ npm run add:imageUpload (controller file name)
 
 to create image upload controller if file not exsit or add image upload function when file is exsit based on controller file name.
 don't forget to add the middleware
-
-## **COSTOM COMMAND**
 
 ## **`CREATE MODEL`**
 
