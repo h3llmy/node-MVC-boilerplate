@@ -87,6 +87,14 @@ html: 'the email message'
 this function will send email base on env
 ```
 
+## **`UNIQUE ARRAY`**
+
+```
+uniqueArray(array there has duplicate value)
+```
+
+this function will return non duplicate array
+
 ## **`PAGINATION`**
 
 ```
