@@ -112,13 +112,13 @@ generatePayment(payload)
 ```
 
 this function will generate payment with midtrans account base on env.
-the payload you can read midtrans documentation here https://api-docs.midtrans.com/
+the payload value can read in midtrans documentation here https://api-docs.midtrans.com/
 
 ```
 updatePayment({transaction_id})
 ```
 
-this function will returning payment status by useing web hooks http req request post from midtrans.
+this function will returning payment status by useing web hooks http request post from midtrans.
 you can convigure web hooks here https://dashboard.midtrans.com/settings/vtweb_configuration at "Payment Notification URL".
 
 ## **RESPONSE**
