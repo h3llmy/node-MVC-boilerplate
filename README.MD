@@ -84,8 +84,9 @@ to: email for,
 subject: 'add subject',
 html: 'the email message'
 })
-this function will send email base on env
 ```
+
+this function will send email base on env
 
 ## **UNIQUE ARRAY**
 
