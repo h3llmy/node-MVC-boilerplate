@@ -79,10 +79,10 @@ this function will decode jwt token base on env ACCESS_TOKEN_SECRET
 
 ```
 nodeMailler({
-from: 'email from',
-to: email for,
-subject: 'add subject',
-html: 'the email message'
+    from: 'email from',
+    to: email for,
+    subject: 'add subject',
+    html: 'the email message'
 })
 ```
 
