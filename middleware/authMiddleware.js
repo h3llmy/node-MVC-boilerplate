@@ -63,6 +63,11 @@ export const isPublic = async (req, res, next) => {
                 if (findUser.isActive == false) {
                     throw "invalid authorization"
                 }
+                if (findUser.status != "admin") {
+                    findUser.filter = {
+                        isActive : true
+                    }
+                }
                 
                 req.auth = findUser
                 
