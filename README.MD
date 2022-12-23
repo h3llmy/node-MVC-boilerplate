@@ -6,7 +6,7 @@
 npm run create:model (model file name)
 ```
 
-to create basic CRUD model based on model file name
+to create basic model based on model file name
 
 ## **CREATE CONTROLLER**
 
