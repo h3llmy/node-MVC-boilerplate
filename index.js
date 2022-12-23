@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import connectMongoDB from './connection/mongoDB.js'
 import router from './route/route.js'
+import fileUpload from 'express-fileupload'
 
 dotenv.config()
 
@@ -10,6 +11,7 @@ const app = express()
 
 connectMongoDB()
 
+app.use(fileUpload())
 app.use(express.json())
 app.use(express.static('public'))
 const appOrigin = process.env.CORS_ORIGIN
