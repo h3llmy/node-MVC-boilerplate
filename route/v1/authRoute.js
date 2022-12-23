@@ -3,11 +3,11 @@ import { forgetPassword, login, register, resendOtp, resetPassword, updateStatus
 
 const router = express.Router()
 
- router.post('/register', register)
- router.put('/update/status/:token', updateStatus)
- router.post('/login', login)
- router.post('/forget/password', forgetPassword)
- router.put('/reset/password/:token', resetPassword)
- router.put('/resend/otp/:token', resendOtp)
+    router.post('/register', register)
+    router.put('/update/status/:token', updateStatus)
+    router.post('/login', login)
+    router.post('/forget/password', forgetPassword)
+    router.put('/reset/password/:token', resetPassword)
+    router.put('/resend/otp/:token', resendOtp)
 
- export default router
+export default router
