@@ -6,29 +6,31 @@ export const uploadFile = (file, mimetypes, filesize, filetype) => {
     if (!file) {
       throw 'file not uploaded'
     }
-    if (filesize?.gte) {
-      if (file.size >= filesize.gte) {
-        throw 'file size not allowed'
+    if (filesize) {      
+      if (filesize.gte) {
+        if (file.size >= filesize.gte) {
+          throw 'file size not allowed'
+        }
       }
-    }
-    if (filesize?.gt) {
-      if (file.size > filesize.gt) {
-        throw 'file size not allowed'
+      if (filesize.gt) {
+        if (file.size > filesize.gt) {
+          throw 'file size not allowed'
+        }
       }
-    }
-    if (filesize?.lte) {
-      if (file.size <= filesize.lte) {
-        throw 'file size not allowed'
+      if (filesize.lte) {
+        if (file.size <= filesize.lte) {
+          throw 'file size not allowed'
+        }
       }
-    }
-    if (filesize?.lt) {
-      if (file.size < filesize.lt) {
-        throw 'file size not allowed'
+      if (filesize.lt) {
+        if (file.size < filesize.lt) {
+          throw 'file size not allowed'
+        }
       }
-    }
-    if (filesize?.eq) {
-      if (file.size == filesize.eq) {
-        throw 'file size not allowed'
+      if (filesize.eq) {
+        if (file.size == filesize.eq) {
+          throw 'file size not allowed'
+        }
       }
     }
     if (mimetypes) {      
