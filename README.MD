@@ -29,7 +29,7 @@ to create basic CRUD route based on route file name
 ## **FILE UPLOAD**
 
 ```
-uploadFileSystem(req.files.(fild name), mime type, file size, {choise:file type})
+uploadFile(req.files.(fild name), mime type, file size, {choise:file type})
 ```
 
 this function will upload your file to "public/(depends on your file mime type)". this function will return object
