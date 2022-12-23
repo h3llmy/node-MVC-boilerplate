@@ -10,7 +10,7 @@ let snap = new midtransClient.Snap({
     clientKey : process.env.MIDTRANS_CLIENTKEY
 })
 
-export const generatePayment = async (payload, next) => {
+export const generatePayment = async (payload) => {
     try {
         const transaction = await snap.createTransaction(payload)
         if (!transaction) {
@@ -18,11 +18,11 @@ export const generatePayment = async (payload, next) => {
         }
         return transaction
     } catch (error) {
-        next(new Error(error));
+        throw error
     }
 }
 
-export const updatePayment = (payload, next) => {
+export const updatePayment = (payload) => {
     try {
         const transactionStatus = snap.transaction.notification(payload)
         if (!transactionStatus) {
@@ -30,6 +30,6 @@ export const updatePayment = (payload, next) => {
         }
         return transactionStatus
     } catch (error){
-        next(new Error(error));
+        throw error
     }
 }

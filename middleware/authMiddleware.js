@@ -1,16 +1,20 @@
 import User from "../model/userModel.js";
 import { decodeToken } from "../vendor/jwtToken.js";
+import { errorResponse } from "../vendor/response.js";
 
 export const auth = async (req, res, next) => {
     try {
         const authorization = req.headers.authorization
+        if (!authorization) {
+            throw "invalid authorization"
+        }
         if (authorization && authorization.startsWith('Bearer')){
             const token = authorization.split(' ')[1]
             const payload = decodeToken(token)
             if (payload.type != "login") {
                 throw "invalid authorization"
             }
-            const findUser = await User.findById({ _id : payload.id }).select('-password').select('-otp')
+            const findUser = await User.findById({ _id : payload.id }).select('-password -otp')
             if (!findUser) {
                 throw "invalid authorization"
             }
@@ -23,7 +27,7 @@ export const auth = async (req, res, next) => {
             next()
         }
     } catch (error) {
-        next(new Error(error));
+        res.status(401).json(errorResponse(error))
     }
 }
 
@@ -34,7 +38,7 @@ export const isAdmin = async (req, res, next) => {
         }
         next()
     } catch (error) {
-        next(new Error(error));
+        res.status(401).json(errorResponse(error))
     }
 }
 
@@ -75,6 +79,6 @@ export const isPublic = async (req, res, next) => {
         }
         next()
     } catch (error) {
-        next(new Error(error));
+        res.status(401).json(errorResponse(error))
     }
 }

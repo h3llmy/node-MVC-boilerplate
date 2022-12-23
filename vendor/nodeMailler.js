@@ -23,7 +23,7 @@ export default async (templateEmail) => {
 
     return sendMail
   } catch (error) {
-    console.error(error);
+    throw error
   }
 }
 

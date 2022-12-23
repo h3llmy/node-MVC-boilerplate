@@ -24,7 +24,6 @@ export const list = async (req, res) => {
 
     res.status(200).json(successResponse(example))
   } catch (error) {
-    console.log(error);
     res.status(400).json(errorResponse(error))
   }
 }
@@ -79,13 +78,4 @@ export const remove = async (req, res) => {
   } catch (error) {
     res.status(400).json(errorResponse(error))
   }
-}
-
-export const mantapFileUpload = async (req, res) => {
-    try {
-        const filePath = process.env.BASE_URL + req.file.destination.split("/")[1] + "/" + req.file.filename
-    res.json(successResponse(filePath))
-    } catch (error) {
-        res.status(400).json(errorResponse(error))
-    }
 }
