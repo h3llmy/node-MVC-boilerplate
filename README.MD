@@ -41,11 +41,11 @@ _input explanation_
 
   _exaple_
 
-  gte = greater than equal
-  lte = littleer than equal
-  lt = littleer than
-  gt = greater than
-  eq = equal than
+  - gte = greater than equal
+  - lte = littleer than equal
+  - lt = littleer than
+  - gt = greater than
+  - eq = equal than
 
 - file type is spesific file type like (.mp3, .mp4, .wav, .png, .jpg)
 
