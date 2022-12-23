@@ -58,12 +58,12 @@ _input explanation_
 
 - file type is spesific file type like `optional`
 
-* .mp3
-* .mp4
-* .wav
-* .png
-* .jpg
-  etc
+  - .mp3
+  - .mp4
+  - .wav
+  - .png
+  - .jpg
+    etc
 
 _output explanation_
 
