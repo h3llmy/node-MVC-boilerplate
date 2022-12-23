@@ -37,7 +37,13 @@ this function will upload your file to "public/(depends on your file mime type)"
 _input explanation_
 
 - fild mime type is general mimetype (application, audio, image, text, video)
-- fild file size in bytes (gte = greater than equal, lte = littleer than equal, lt = littleer than, gt = greater than, eq = equal than)
+- fild file size in bytes
+  _exaple_
+  gte = greater than equal
+  lte = littleer than equal
+  lt = littleer than
+  gt = greater than
+  eq = equal than
 - file type is spesific file type like (.mp3, .mp4, .wav, .png, .jpg)
 
 _output explanation_
