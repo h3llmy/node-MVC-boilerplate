@@ -159,5 +159,5 @@ this for returning error response when the return is error
 
 ## **`CORS ORIGIN`**
 
-in env there has "CORS_ORIGIN" this value must be array of string for allowing what domain can access your api.
+in env there has "CORS_ORIGIN" this value must be string for allowing what origin can access your api. you can add multiple origin without adding it to array just add it like (`"https://youtube.com, https://google.com"`)
 this cors origin useing white list system
