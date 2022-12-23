@@ -1,48 +1,54 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-export const uploadFile = (file, mimetypes, filesize, filetype) => {
+export const uploadFile = (file, filters) => {
   try {
     if (!file) {
       throw 'file not uploaded'
     }
-    if (filesize) {      
-      if (filesize.gte) {
-        if (file.size >= filesize.gte) {
+    if (filters) {      
+      if (filters.gte) {
+        if (file.size <= filters.gte) {
           throw 'file size not allowed'
         }
       }
-      if (filesize.gt) {
-        if (file.size > filesize.gt) {
+      if (filters.gt) {
+        if (file.size < filters.gt) {
           throw 'file size not allowed'
         }
       }
-      if (filesize.lte) {
-        if (file.size <= filesize.lte) {
+      if (filters.lte) {
+        if (file.size >= filters.lte) {
           throw 'file size not allowed'
         }
       }
-      if (filesize.lt) {
-        if (file.size < filesize.lt) {
+      if (filters.lt) {
+        if (file.size > filters.lt) {
           throw 'file size not allowed'
         }
       }
-      if (filesize.eq) {
-        if (file.size == filesize.eq) {
+      if (filters.eq) {
+        if (file.size == filters.eq) {
+          throw 'file size not allowed'
+        }
+      }
+      if (filters.ne) {
+        if (file.size != filters.ne) {
           throw 'file size not allowed'
         }
       }
     }
-    if (mimetypes) {      
-      if (!file.mimetype.split("/")[0].includes(mimetypes)) {
+    if (filters.mimeType) {   
+      if (!file.mimetype.split("/")[0].includes(filters.mimeType)) {
         throw 'mime type not allowd'
       }
     }
-    if (filetype) {
-      if (!file.name.includes('.' + filetype.split('.').pop())) {
+    if (filters.fileType) {
+      if (!filters.fileType.includes('.' + file.name.split('.').pop())) {
         throw 'file type not allowed'
       }
     }
+    
     const mime = file.mimetype.split("/")[0]
     const fileName = + Date.now() + '-' + file.name
     const filePath = process.env.BASE_URL + `${mime}/` + fileName

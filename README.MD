@@ -29,14 +29,25 @@ to create basic CRUD route based on route file name
 ## **FILE UPLOAD**
 
 ```
-uploadFile(req.files.(field name), mime type, {filter:file size}, file type)
+uploadFile(req.files.(field name), {
+  mimeType : mime type,
+  filter : file size,
+  fileType : file type
+  })
 ```
 
 this function will upload your file to "public/(depends on your file mime type)". this function will return object
 
 _input explanation_
 
-- field mime type is general mimetype (application, audio, image, text, video) `optional`
+- field mime type is general mimetype `optional`
+
+  - application
+  - audio
+  - image
+  - text
+  - video
+
 - filter file size in bytes `optional`
 
   - gte = greater than equal
@@ -45,7 +56,14 @@ _input explanation_
   - gt = greater than
   - eq = equal than
 
-- file type is spesific file type like (.mp3, .mp4, .wav, .png, .jpg) `optional`
+- file type is spesific file type like `optional`
+
+* .mp3
+* .mp4
+* .wav
+* .png
+* .jpg
+  etc
 
 _output explanation_
 
@@ -157,5 +175,5 @@ this for returning error response when the return is error
 
 ## **`CORS ORIGIN`**
 
-in env there has "CORS_ORIGIN" this value must be string for allowing what origin can access your api. you can add multiple origin without adding it to array just add it like (`"https://youtube.com, https://google.com"`)
+in env there has "CORS_ORIGIN" this value must be string for allowing what origin can access your api. you can add multiple origin without adding it to array just add it like (`"https://youtube.com, https://google.com"`).
 this cors origin useing white list system
