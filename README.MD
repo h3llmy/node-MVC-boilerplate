@@ -38,12 +38,15 @@ _input explanation_
 
 - fild mime type is general mimetype (application, audio, image, text, video)
 - fild file size in bytes
+
   _exaple_
+
   gte = greater than equal
   lte = littleer than equal
   lt = littleer than
   gt = greater than
   eq = equal than
+
 - file type is spesific file type like (.mp3, .mp4, .wav, .png, .jpg)
 
 _output explanation_
