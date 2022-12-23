@@ -36,10 +36,8 @@ this function will upload your file to "public/(depends on your file mime type)"
 
 _input explanation_
 
-- fild mime type is general mimetype (application, audio, image, text, video) // optional
-- fild file size in bytes // optional
-
-  _exaple_
+- fild mime type is general mimetype (application, audio, image, text, video) `optional`
+- fild file size in bytes `optional`
 
   - gte = greater than equal
   - lte = littleer than equal
@@ -47,7 +45,7 @@ _input explanation_
   - gt = greater than
   - eq = equal than
 
-- file type is spesific file type like (.mp3, .mp4, .wav, .png, .jpg) // optional
+- file type is spesific file type like (.mp3, .mp4, .wav, .png, .jpg) `optional`
 
 _output explanation_
 
@@ -134,14 +132,14 @@ generatePayment(payload)
 ```
 
 this function will generate payment with midtrans account base on env.
-the payload value can read in midtrans documentation here https://api-docs.midtrans.com/
+the payload value can read in midtrans documentation here `https://api-docs.midtrans.com/`
 
 ```
 updatePayment({transaction_id})
 ```
 
 this function will returning payment status by useing web hooks http request post from midtrans.
-you can convigure web hooks here https://dashboard.midtrans.com/settings/vtweb_configuration at "Payment Notification URL".
+you can convigure web hooks here `https://dashboard.midtrans.com/settings/vtweb_configuration` at "Payment Notification URL".
 
 ## **RESPONSE**
 
