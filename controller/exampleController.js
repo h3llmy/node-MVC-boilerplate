@@ -2,16 +2,14 @@ import { successResponse, errorResponse } from "../vendor/response.js";
 
 import Example from "../model/exampleModel.js";
 import paginations from "../vendor/pagination.js";
-import { UploadFileSystem } from "../vendor/fileUpload.js";
 
 export const add = async (req, res) => {
     try {
-      const file = UploadFileSystem(req.files.mantap)
-      if (!file) {
-        throw 'file not uploaded'
-      }
+      const newValue = await Example.create({
+        example: req.body.example
+      })
   
-      res.status(200).json(successResponse(file))
+      res.status(200).json(successResponse(newValue))
     } catch (error) {
       res.status(400).json(errorResponse(error))
     }

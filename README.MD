@@ -1,14 +1,5 @@
 ## **`COSTOM COMMAND`**
 
-## **FILE UPLOAD MIDDLEWARE WITH MULTER**
-
-```
-npm run add:fileUpload (function name) (controller file name)
-```
-
-to create file upload controller if file not exsit or add image upload function when file is exsit based on controller file name.
-don't forget to add the middleware in route
-
 ## **CREATE MODEL**
 
 ```
@@ -34,6 +25,14 @@ npm run create:route (rute file name)
 to create basic CRUD route based on route file name
 
 ## **`COSTOM FUNCTIONS`**
+
+## **FILE UPLOAD**
+
+```
+uploadFileSystem(req.files.(fild name))
+```
+
+this function will upload your file to "public/(depends on your file mime type)"
 
 ## **INPUT CHECK**
 

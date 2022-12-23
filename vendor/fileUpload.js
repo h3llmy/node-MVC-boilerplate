@@ -1,4 +1,4 @@
-export const UploadFileSystem = (file) => {
+export const uploadFileSystem = (file) => {
   try {
     if (!file) {
       throw 'file not uploaded'
