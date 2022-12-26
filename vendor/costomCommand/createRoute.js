@@ -6,18 +6,18 @@ try {
   const fullPath =  "'current', ../../route/v1/" + fileName
   const filePath2 = "'current', ../../route/route.js";
   const fileContent = `import express from 'express'
-  import { add, list, detail, update, remove } from '../../controller/${inputName}Controller.js'
-  import { auth, isAdmin } from '../../middleware/authMiddleware.js'
+import { add, list, detail, update, remove } from '../../controller/${inputName}Controller.js'
+import { auth, isAdmin } from '../../middleware/authMiddleware.js'
 
-  const router = express.Router()
+const router = express.Router()
 
-    router.post('/add', auth, add)
-    router.get('/list', auth, list)
-    router.get('/detail/:${inputName}_id', auth, detail)
-    router.put('/update/:${inputName}_id', auth, update)
-    router.delete('/delete/:${inputName}_id', auth, remove)
+  router.post('/add', auth, add)
+  router.get('/list', auth, list)
+  router.get('/detail/:${inputName}_id', auth, detail)
+  router.put('/update/:${inputName}_id', auth, update)
+  router.delete('/delete/:${inputName}_id', auth, remove)
 
-  export default router`;
+export default router`;
 
   if (fs.existsSync(fullPath)) {
     throw `route ${fileName} has already exsist`

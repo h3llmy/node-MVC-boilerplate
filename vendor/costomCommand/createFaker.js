@@ -9,36 +9,36 @@ try {
     const fileName = process.argv[2] + "Faker.js";
     const fullPath =  "'current', ../../faker/" + fileName
     const fileContent = `import { faker } from '@faker-js/faker'
-    import ${newinputName} from '../model/${inputName}Model.js'
-    import dotenv from 'dotenv'
-    import connectMongoDB from '../connection/mongoDB.js'
-    dotenv.config({path : '../../.env'})
+import ${newinputName} from '../model/${inputName}Model.js'
+import dotenv from 'dotenv'
+import connectMongoDB from '../connection/mongoDB.js'
+dotenv.config({path : '../../.env'})
 
-    connectMongoDB()
+connectMongoDB()
 
-    let ${inputName} = []
-    Array.from({ length: 10 }).forEach(() => {
-    const ${inputName}Data = {
-        name : faker.internet.userName()
+let ${inputName} = []
+Array.from({ length: 10 }).forEach(() => {
+const ${inputName}Data = {
+    name : faker.internet.userName()
+}
+${inputName}.push(${inputName}Data)
+});
+
+async function create${newinputName}s() {
+try {
+    const create${newinputName} = await ${newinputName}.create(${inputName})
+    if (!create${newinputName}) {
+    throw 'failed to generate ${newinputName}'
     }
-    ${inputName}.push(${inputName}Data)
-    });
+    console.log('\x1b[32m%s\x1b[0m', "${newinputName} data created");
+    process.exit(1)
+} catch (error) {
+    console.error(error);
+    process.exit(1)
+}
+}
 
-    async function create${newinputName}s() {
-    try {
-        const create${newinputName} = await ${newinputName}.create(${inputName})
-        if (!create${newinputName}) {
-        throw 'failed to generate ${newinputName}'
-        }
-        console.log('\x1b[32m%s\x1b[0m', "${newinputName} data created");
-        process.exit(1)
-    } catch (error) {
-        console.error(error);
-        process.exit(1)
-    }
-    }
-
-    create${newinputName}s()`;
+create${newinputName}s()`;
 
     if (fs.existsSync(fullPath)) {
         throw `faker ${fileName} has already exsist`

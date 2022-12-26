@@ -10,41 +10,41 @@ try {
   const fullPath =  "'current', ../../model/" + fileName
   const fileContent = `import mongoose from 'mongoose'
 
-  const ${inputName}Schema = new mongoose.Schema(
-    {
-      name : {
-        type: String,
-        require : true,
-        unique : [true, 'name must be unique']
-      },
-      isActive : {
-        type : Boolean,
-        default : true
-      },
-      deletedAt: {
-        type: Date
-      }
+const ${inputName}Schema = new mongoose.Schema(
+  {
+    name : {
+      type: String,
+      require : true,
+      unique : [true, 'name must be unique']
     },
-    {
-        timestamps: true
+    isActive : {
+      type : Boolean,
+      default : true
+    },
+    deletedAt: {
+      type: Date
     }
-  )
+  },
+  {
+      timestamps: true
+  }
+)
 
-  ${inputName}Schema.pre('countDocuments', function () {
-    this.where({ deletedAt: null })
-  })
+${inputName}Schema.pre('countDocuments', function () {
+  this.where({ deletedAt: null })
+})
 
-  ${inputName}Schema.pre('find', function () {
-    this.where({ deletedAt: null })
-  })
+${inputName}Schema.pre('find', function () {
+  this.where({ deletedAt: null })
+})
 
-  ${inputName}Schema.pre('findOne', function () {
-    this.where({ deletedAt: null })
-  })
+${inputName}Schema.pre('findOne', function () {
+  this.where({ deletedAt: null })
+})
 
-  const ${newinputName} = mongoose.model('${inputName}', ${inputName}Schema)
+const ${newinputName} = mongoose.model('${inputName}', ${inputName}Schema)
 
-  export default ${newinputName}`;
+export default ${newinputName}`;
 
     if (fs.existsSync(fullPath)) {
       throw `model ${fileName} has already exsist`
