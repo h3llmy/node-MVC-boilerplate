@@ -266,7 +266,7 @@ export const login = async (req, res) => {
     try {
         const user = await User.findOne({ username : req.body.username })
         if (!user) {
-            throw "Invalid email or password"
+            throw "Invalid username or password"
         }
         if (!req.body.password) {
             throw "password required"
@@ -275,7 +275,7 @@ export const login = async (req, res) => {
             throw "account is not active"
         }
         if (user.matchPassword(req.body.password) == false) {
-            throw "Invalid email or password"
+            throw "Invalid username or password"
         }
 
         const payload = await generateToken({
