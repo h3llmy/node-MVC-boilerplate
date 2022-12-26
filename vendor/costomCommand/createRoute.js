@@ -1,10 +1,11 @@
 import fs from 'fs';
 
-const inputName = process.argv[2]
-const fileName = process.argv[2] + "Route.js";
-const fullPath =  "'current', ../../route/v1/" + fileName
-const filePath2 = "'current', ../../route/route.js";
-const fileContent = `import express from 'express'
+try {
+  const inputName = process.argv[2]
+  const fileName = process.argv[2] + "Route.js";
+  const fullPath =  "'current', ../../route/v1/" + fileName
+  const filePath2 = "'current', ../../route/route.js";
+  const fileContent = `import express from 'express'
 import { add, list, detail, update, remove } from '../../controller/${inputName}Controller.js'
 import { auth, isAdmin } from '../../middleware/authMiddleware.js'
 
@@ -18,7 +19,6 @@ const router = express.Router()
 
 export default router`;
 
-try {
   if (fs.existsSync(fullPath)) {
     throw `route ${fileName} has already exsist`
   }
@@ -42,12 +42,12 @@ try {
           if (err) {
             throw err
           } else {
-            console.log(`route ${fileName} has been created!`);
+            console.log('\x1b[32m%s\x1b[0m', `route ${fileName} has been created!`);
           }
         });
       }
     });
   });
 } catch (error) {
-  console.error(error);
+  console.error('\x1b[31m%s\x1b[0m', error);
 }

@@ -19,9 +19,9 @@ if (appOrigin) {
   appOrigin = appOrigin.split(', ')
 }
 if (!appOrigin || appOrigin == '' || appOrigin.length <= 0) {
-  console.log('all origin is allowed');
+  console.log('\x1b[34m%s\x1b[0m', 'all origin is allowed');
 }else {
-  console.log('allowed origin : ', appOrigin);
+  console.log('\x1b[34m%s\x1b[0m', 'allowed origin : ', appOrigin);
 }
 app.use(cors({
     origin: function(origin, callback){
@@ -38,6 +38,6 @@ app.use('/api/v1', router)
 
 const port = process.env.PORT || 3000 
 app.listen(port, () => {
-  console.log(`server is listening at port ${port}`)
+  console.log('\x1b[34m%s\x1b[0m', `server is listening at port ${port}`)
 })
 

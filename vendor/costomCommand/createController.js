@@ -1,10 +1,14 @@
 import fs from 'fs';
 
-const inputName = process.argv[2]
-const newinputName = inputName.replace(/^\w/, c => c.toUpperCase());
-const fileName = process.argv[2] + "Controller.js";
-const fullPath =  "'current', ../../controller/" + fileName
-const fileContent = `import { successResponse, errorResponse } from "../vendor/response.js";
+try {
+  const inputName = process.argv[2]
+  if (!process.argv[2]) {
+    throw 'file name is required'
+  }
+  const newinputName = inputName.replace(/^\w/, c => c.toUpperCase());
+  const fileName = process.argv[2] + "Controller.js";
+  const fullPath =  "'current', ../../controller/" + fileName
+  const fileContent = `import { successResponse, errorResponse } from "../vendor/response.js";
 
 import ${newinputName} from "../model/${inputName}Model.js";
 import paginations from "../vendor/pagination.js";
@@ -86,17 +90,14 @@ export const remove = async (req, res) => {
   }
 }`;
 
-try {
-  if (fs.existsSync(fullPath)) {
-    throw `controller ${fileName} has already exsist`
-  }
-    if (!process.argv[2]) {
-        throw 'file name is required'
+
+    if (fs.existsSync(fullPath)) {
+      throw `controller ${fileName} has already exsist`
     }
     fs.writeFile(fullPath, fileContent, (err) => {
       if (err) throw err;
-      console.log(`controller ${fileName} has been created!`);
+      console.log('\x1b[32m%s\x1b[0m', `controller ${fileName} has been created!`);
     });
 } catch (error) {
-    console.error(error);
+    console.error('\x1b[31m%s\x1b[0m', error);
 }

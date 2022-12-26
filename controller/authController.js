@@ -85,8 +85,8 @@ export const register = async (req, res) => {
                                 Untuk melakukan aktivasi akun customer BLiP, silahkan salin kode OTP dibawah ini dan masukan pada kolom OTP pada website BLiP 
                               </p>
                               <h1>
-            ${randomOtp}
-        </h1>
+                                  ${randomOtp}
+                              </h1>
                             </h1></td>
                           </tr>
                           
@@ -187,8 +187,8 @@ export const resendOtp = async (req, res) => {
                             Untuk melakukan aktivasi akun customer BLiP, silahkan salin kode OTP dibawah ini dan masukan pada kolom OTP pada website BLiP 
                           </p>
                           <h1>
-        ${randomOtp}
-    </h1>
+                              ${randomOtp}
+                          </h1>
                         </h1></td>
                       </tr>
                       
