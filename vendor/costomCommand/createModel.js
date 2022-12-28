@@ -8,13 +8,14 @@ try {
   const newinputName = inputName.replace(/^\w/, c => c.toUpperCase());
   const fileName = process.argv[2] + "Model.js";
   const fullPath =  "'current', ../../model/" + fileName
-  const fileContent = `import mongoose from 'mongoose'
+  const fileContent = 
+`import mongoose from 'mongoose'
 
 const ${inputName}Schema = new mongoose.Schema(
   {
     name : {
       type: String,
-      require : true,
+      required : true,
       unique : [true, 'name must be unique']
     },
     isActive : {
@@ -55,5 +56,5 @@ export default ${newinputName}`;
     });
 
 } catch (error) {
-  console.error('\x1b[31m%s\x1b[0m', error);
+  console.log('\x1b[31m%s\x1b[0m', error);
 }

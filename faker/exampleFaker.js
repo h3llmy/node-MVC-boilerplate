@@ -23,7 +23,7 @@ async function createExamples() {
     console.log('\x1b[32m%s\x1b[0m', "Example data created");
     process.exit(1)
   } catch (error) {
-    console.error(error);
+    console.log('\x1b[31m%s\x1b[0m', error);
     process.exit(1)
   }
 }

@@ -8,7 +8,8 @@ try {
     const newinputName = inputName.replace(/^\w/, c => c.toUpperCase());
     const fileName = process.argv[2] + "Faker.js";
     const fullPath =  "'current', ../../faker/" + fileName
-    const fileContent = `import { faker } from '@faker-js/faker'
+    const fileContent = 
+`import { faker } from '@faker-js/faker'
 import ${newinputName} from '../model/${inputName}Model.js'
 import dotenv from 'dotenv'
 import connectMongoDB from '../connection/mongoDB.js'
@@ -33,7 +34,7 @@ try {
     console.log('\x1b[32m%s\x1b[0m', "${newinputName} data created");
     process.exit(1)
 } catch (error) {
-    console.error(error);
+    console.error('\x1b[31m%s\x1b[0m', error);
     process.exit(1)
 }
 }
@@ -45,8 +46,8 @@ create${newinputName}s()`;
     }
     fs.writeFile(fullPath, fileContent, (err) => {
       if (err) throw err;
-      console.log('\x1b[32m%s\x1b[0m', `controller ${fileName} has been created!`);
+      console.log('\x1b[32m%s\x1b[0m', `faker ${fileName} has been created!`);
     });
 } catch (error) {
-    console.error('\x1b[31m%s\x1b[0m', error);
+    console.log('\x1b[31m%s\x1b[0m', error);
 }

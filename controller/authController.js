@@ -3,7 +3,7 @@ import { successResponse, errorResponse } from "../vendor/response.js";
 import { decodeToken, generateToken } from "../vendor/jwtToken.js";
 import dotenv from 'dotenv';
 import User from "../model/userModel.js";
-import {emailCheck} from "../vendor/inputCheck.js";
+import {emailCheck} from "../vendor/validator.js";
 
 dotenv.config()
 

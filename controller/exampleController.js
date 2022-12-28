@@ -11,20 +11,18 @@ export const add = async (req, res) => {
   
       res.status(200).json(successResponse(newValue))
     } catch (error) {
-      res.status(400).json(errorResponse(error))
+      res.status(400).json(errorResponse(error.message))
     }
   }
   
 export const list = async (req, res) => {
   try {
     const example =  await Example.find(req.auth.filter, {}, paginations(req.query))
-    if (!example) {
-      throw 'Example not found.'
-    }
+    .orFail(new Error('Example not found'))
 
     res.status(200).json(successResponse(example))
   } catch (error) {
-    res.status(400).json(errorResponse(error))
+    res.status(400).json(errorResponse(error.message))
   }
 }
 
@@ -32,23 +30,18 @@ export const detail = async (req, res) => {
   try {
     const example = await Example.findOne({
       _id: req.params.example_id
-    })
-    if (!example) {
-      throw 'Example not found.'
-    }
+    }).orFail(new Error('Example not found'))
 
     res.status(200).json(successResponse(example))
   } catch (error) {
-    res.status(400).json(errorResponse(error))
+    res.status(400).json(errorResponse(error.message))
   }
 }
 
 export const update = async (req, res) => {
   try {
     const example = await Example.findOne({_id: req.params.example_id})
-    if (!example) {
-      throw 'Example not found'
-    }
+    .orFail(new Error('Example not found'))
 
     example.example = req.body.example || example.example
 
@@ -56,26 +49,21 @@ export const update = async (req, res) => {
 
     res.status(200).json(successResponse(updateExample, 'Example updated'))
   } catch (error) {
-    res.status(400).json(errorResponse(error))
+    res.status(400).json(errorResponse(error.message))
   }
 }
 
 export const remove = async (req, res) => {
   try {  
     const exampleData = await Example.findOne({ _id: req.params.example_id })
-    if (!exampleData) {
-      throw 'Example not found.'
-    }
+    .orFail(new Error('Example not found'))
 
     exampleData.deletedAt = new Date()
 
     const deleteExample = await exampleData.save()
-    if (!deleteExample) {
-      throw 'Fail to delete Example.'
-    }
 
     res.status(200).json(successResponse(deleteExample, 'Example deleted'))
   } catch (error) {
-    res.status(400).json(errorResponse(error))
+    res.status(400).json(errorResponse(error.message))
   }
 }
