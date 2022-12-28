@@ -15,8 +15,8 @@ try {
   if (scripts.length <= 0) {
     throw `command ${process.argv[2]} not found`
   }
-  
-  console.log('\x1b[34m%s\x1b[0m', `faker ${scripts} is running...\n`);
+
+  console.log('\x1b[34m%s\x1b[0m', `faker ${scripts.map(str => str.split('/')[1])} is running...`);
   scripts.forEach(script => {
     const child = spawn('node', [script]);
   
@@ -25,5 +25,5 @@ try {
     });
   }); 
 } catch (error) {
-  console.error('\x1b[31m%s\x1b[0m', error);
+  console.log('\x1b[31m%s\x1b[0m', error);
 }

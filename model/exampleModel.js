@@ -4,7 +4,7 @@ const example = new mongoose.Schema(
     {
         example : {
             type: String,
-            require : true,
+            required : true,
             unique : [true, 'name must be unique']
         },
         isActive : {

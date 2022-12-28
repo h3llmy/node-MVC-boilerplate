@@ -1,26 +1,31 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcrypt'
+import { emailCheck } from '../vendor/validator.js'
 
 const userSchema = new mongoose.Schema(
     {
         username : {
             type: String,
-            require : true,
+            required : true,
             unique : [true, 'username must be unique']
         },
         email: {
             type: String,
-            require: true,
-            unique : [true, 'email must be unique']
+            required: true,
+            unique : [true, 'email must be unique'],
+            validate: {
+                validator : emailCheck,
+                message: "invalid email format"
+            }
         },
         password: {
             type: String,
-            require: true
+            required: true
         },
         status : {
             type: String,
             enum: ["user", "admin"],
-            require: true,
+            required: true,
             default: "user"
         },
         isActive: {

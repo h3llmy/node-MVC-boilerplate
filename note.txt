@@ -1,2 +1,2 @@
 middleware = add oauth2
-README = array process
+README = array process, faker
