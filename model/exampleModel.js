@@ -5,7 +5,16 @@ const example = new mongoose.Schema(
         example : {
             type: String,
             required : true,
-            unique : [true, 'name must be unique']
+            unique : true
+        },
+        userId : {
+            type : mongoose.Schema.Types.ObjectId,
+            ref : 'user',
+            required : true
+        },
+        picture : {
+            type : String,
+            required : true
         },
         isActive : {
             type : Boolean,

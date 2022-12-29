@@ -29,7 +29,7 @@ export const add = async (req, res) => {
 export const list = async (req, res) => {
   try {
     const ${inputName}Find = await ${newinputName}.find(req.auth.filter, {}, paginations(req.query))
-.orFail(new Error('${newinputName} not found'))
+    .orFail(new Error('${newinputName} not found'))
 
     res.status(200).json(successResponse(${inputName}Find))
   } catch (error) {

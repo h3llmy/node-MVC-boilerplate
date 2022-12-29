@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-export const uploadFile = (file, filters) => {
+const uploadFile = (file, filters) => {
   try {
     if (!file) {
       throw 'file not uploaded'
@@ -37,15 +37,15 @@ export const uploadFile = (file, filters) => {
           throw 'file size not allowed'
         }
       }
-    }
-    if (filters.mimeType) {   
-      if (!file.mimetype.split("/")[0].includes(filters.mimeType)) {
-        throw 'mime type not allowd'
+      if (filters.mimeType) {   
+        if (!file.mimetype.split("/")[0].includes(filters.mimeType)) {
+          throw 'mime type not allowd'
+        }
       }
-    }
-    if (filters.fileType) {
-      if (!filters.fileType.includes('.' + file.name.split('.').pop())) {
-        throw 'file type not allowed'
+      if (filters.fileType) {
+        if (!filters.fileType.includes('.' + file.name.split('.').pop())) {
+          throw 'file type not allowed'
+        }
       }
     }
     
@@ -62,6 +62,8 @@ export const uploadFile = (file, filters) => {
       size : file.size
     }
   } catch (error) {
-    throw error
+    throw new Error(error)
   }
 }
+
+export default uploadFile

@@ -2,12 +2,22 @@ import { successResponse, errorResponse } from "../vendor/response.js";
 
 import Example from "../model/exampleModel.js";
 import paginations from "../vendor/pagination.js";
+import uploadFile from "../vendor/uploadFile.js";
 
 export const add = async (req, res) => {
     try {
       const newValue = await Example.create({
-        example: req.body.example
+        example: req.body.example,
+        picture: req.files?.picture?.name,
+        userId : req.body.userId
       })
+      const picture = uploadFile(req.files.picture)
+      if (!picture) {
+        throw await newValue.remove() 
+      }
+
+      newValue.picture = picture.filePath
+      newValue.save()
   
       res.status(200).json(successResponse(newValue))
     } catch (error) {
@@ -18,6 +28,7 @@ export const add = async (req, res) => {
 export const list = async (req, res) => {
   try {
     const example =  await Example.find(req.auth.filter, {}, paginations(req.query))
+    .populate("userId")
     .orFail(new Error('Example not found'))
 
     res.status(200).json(successResponse(example))
@@ -30,7 +41,8 @@ export const detail = async (req, res) => {
   try {
     const example = await Example.findOne({
       _id: req.params.example_id
-    }).orFail(new Error('Example not found'))
+    })
+    .orFail(new Error('Example not found'))
 
     res.status(200).json(successResponse(example))
   } catch (error) {

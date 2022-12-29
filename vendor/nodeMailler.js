@@ -23,7 +23,7 @@ export default async (templateEmail) => {
 
     return sendMail
   } catch (error) {
-    throw error
+    throw new Error(error)
   }
 }
 
