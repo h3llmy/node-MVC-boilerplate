@@ -18,7 +18,7 @@ export const generatePayment = async (payload) => {
         }
         return transaction
     } catch (error) {
-        throw error
+        throw new Error(error)
     }
 }
 
@@ -30,6 +30,6 @@ export const updatePayment = (payload) => {
         }
         return transactionStatus
     } catch (error){
-        throw error
+        throw new Error(error)
     }
 }

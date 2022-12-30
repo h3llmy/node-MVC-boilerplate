@@ -10,8 +10,7 @@ dotenv.config()
 export const register = async (req, res) => {
     try {
         const randomOtp = (Math.floor(Math.random() * 100000) + 100000).toString().substring(1);
-        const checkEmail = emailCheck(req.body.email)
-        if (!checkEmail) {
+        if (!emailCheck(req.body.email)) {
             throw "is not an email addres"
         }
 
@@ -130,6 +129,7 @@ export const resendOtp = async (req, res) => {
     const randomOtp = (Math.floor(Math.random() * 100000) + 100000).toString().substring(1);
     const token = decodeToken(req.params.token)
     const findUser = await User.findOne({ _id : token.id })
+    .orFail(new Error('user not found'))
 
     if (findUser?.isActive == true) {
       throw "user already register"
@@ -235,9 +235,7 @@ export const updateStatus = async (req, res) => {
         }
         
         const user = await User.findOne({ _id : decoded.id })
-        if (!user) {
-            throw "account not found"
-        }
+        .orFail(new Error('account not found'))
         if (user.isActive == true) {
             throw "account already verifid"
         }
@@ -265,9 +263,7 @@ export const updateStatus = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const user = await User.findOne({ username : req.body.username })
-        if (!user) {
-            throw "Invalid username or password"
-        }
+        .orFail(new Error("Invalid username or password"))
         if (!req.body.password) {
             throw "password required"
         }
@@ -291,10 +287,11 @@ export const login = async (req, res) => {
 
 export const forgetPassword = async(req, res) => {
     try {
-        const findUser = await User.findOne({ email : req.body.email })
-        if (!findUser) {
-            throw "email not found"
+        if (req.body.url) {
+          throw 'redirect url required'
         }
+        const findUser = await User.findOne({email : req.body.email })
+        .orFail(new Error("email not found"))
         if (findUser.isActive == false) {
             throw "account is not active please activate your account"
         }
@@ -346,7 +343,7 @@ export const forgetPassword = async(req, res) => {
                               <p style="color:#455056; font-size:15px;line-height:24px; margin:0;padding-top:20pt;">
                                 Untuk melakukan aktivasi akun customer BLiP, silahkan salin kode OTP dibawah ini dan masukan pada kolom OTP pada website BLiP 
                               </p>
-                              <a href="${process.env.CLIENT_URL}/api/v1/auth/reset/password/${tokenReset}" style="background:#D63031;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;font-size:14px;padding:10px 24px;display:inline-block;border-radius:15px;">
+                              <a href="${req.body.url}/${tokenReset}" style="background:#D63031;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;font-size:14px;padding:10px 24px;display:inline-block;border-radius:15px;">
                               Aktivasi
                             </a>
                             </td>
@@ -375,8 +372,8 @@ export const forgetPassword = async(req, res) => {
         </body>
             `
         }
-        await findUser.save()
         nodeMailler(emailMessages)
+        await findUser.save()
         res.status(200).json(successResponse({token : tokenReset}))
     } catch (error) {
         res.status(400).json(errorResponse(error))
@@ -394,9 +391,7 @@ export const resetPassword = async (req, res) => {
         }
 
         const findUser = await User.findOne({ _id : decoded.id })
-        if (!findUser) {
-            throw "account not found"
-        }
+        .orFail(new Error('account not found'))
         if (findUser.isActive == false) {
             throw "account is not active please activate your account"
         }

@@ -8,7 +8,7 @@ export const generateToken = (payload, expiresIn) => {
       expiresIn: expiresIn
     })
   } catch (error) {
-    throw error
+    throw new Error(error)
   }
 }
 
@@ -18,7 +18,7 @@ export const refreshToken = (payload, expiresIn) => {
       expiresIn: expiresIn
     })
   } catch (error) {
-    throw error
+    throw new Error(error)
   }
 }
 
@@ -26,6 +26,6 @@ export const decodeToken = (payload) => {
   try {
     return jwt.verify(payload, process.env.ACCESS_TOKEN_SECRET)
   } catch (error) {
-    throw error
+    throw new Error(error)
   }
 }

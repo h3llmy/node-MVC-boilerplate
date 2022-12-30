@@ -2,22 +2,26 @@ import { successResponse, errorResponse } from "../vendor/response.js";
 
 import Example from "../model/exampleModel.js";
 import paginations from "../vendor/pagination.js";
+import uploadFile from "../vendor/uploadFile.js";
 
 export const add = async (req, res) => {
-    try {
-      const newValue = await Example.create({
-        example: req.body.example
-      })
-  
-      res.status(200).json(successResponse(newValue))
-    } catch (error) {
-      res.status(400).json(errorResponse(error.message))
-    }
+  try {
+    const newValue = await Example.create({
+      example: req.body.example,
+      picture: uploadFile(req.files.picture, {lte : 10}).filePath,
+      userId : req.body.userId
+    })
+
+    res.status(200).json(successResponse(newValue))
+  } catch (error) {
+    res.status(400).json(errorResponse(error.message))
   }
+}
   
 export const list = async (req, res) => {
   try {
     const example =  await Example.find(req.auth.filter, {}, paginations(req.query))
+    .populate("userId")
     .orFail(new Error('Example not found'))
 
     res.status(200).json(successResponse(example))
@@ -30,7 +34,8 @@ export const detail = async (req, res) => {
   try {
     const example = await Example.findOne({
       _id: req.params.example_id
-    }).orFail(new Error('Example not found'))
+    })
+    .orFail(new Error('Example not found'))
 
     res.status(200).json(successResponse(example))
   } catch (error) {

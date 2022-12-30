@@ -17,16 +17,15 @@ dotenv.config({path : '../../.env'})
 
 connectMongoDB()
 
-let ${inputName} = []
-Array.from({ length: 10 }).forEach(() => {
-const ${inputName}Data = {
-    name : faker.internet.userName()
-}
-${inputName}.push(${inputName}Data)
-});
-
-async function create${newinputName}s() {
 try {
+    let ${inputName} = []
+    Array.from({ length: 10 }).forEach(() => {
+        const ${inputName}Data = {
+            name : faker.internet.userName()
+        }
+        ${inputName}.push(${inputName}Data)
+    });
+    
     const create${newinputName} = await ${newinputName}.create(${inputName})
     if (!create${newinputName}) {
     throw 'failed to generate ${newinputName}'
@@ -34,12 +33,9 @@ try {
     console.log('\x1b[32m%s\x1b[0m', "${newinputName} data created");
     process.exit(1)
 } catch (error) {
-    console.error('\x1b[31m%s\x1b[0m', error);
+    console.log('\x1b[31m%s\x1b[0m', error.message);
     process.exit(1)
-}
-}
-
-create${newinputName}s()`;
+}`;
 
     if (fs.existsSync(fullPath)) {
         throw `faker ${fileName} has already exsist`

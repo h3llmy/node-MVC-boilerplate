@@ -9,7 +9,9 @@ dotenv.config()
 
 const app = express()
 
-connectMongoDB()
+connectMongoDB().then(conn => {
+  console.log('\x1b[34m%s\x1b[0m', `MongoDB connected: ${conn.connection.host}`)
+})
 
 app.use(fileUpload())
 app.use(express.json())

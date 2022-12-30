@@ -4,7 +4,7 @@ import { auth, isAdmin, isPublic } from '../../middleware/authMiddleware.js'
 
 const router = express.Router()
 
-    router.post('/add', auth, isAdmin, add)
+    router.post('/add', add)
     router.get('/list', isPublic, list)
     router.get('/detail/:example_id', detail)
     router.put('/update/:example_id', update)
