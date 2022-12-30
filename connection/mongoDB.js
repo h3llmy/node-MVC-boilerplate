@@ -10,7 +10,7 @@ const connectMongoDB = async () => {
       useNewUrlParser: true
     })
 
-    console.log('\x1b[34m%s\x1b[0m', `MongoDB connected: ${conn.connection.host}`)
+    return conn
   } catch (error) {
     console.error('\x1b[31m%s\x1b[0m', `Error: ${error.message}`)
     process.exit(1)
