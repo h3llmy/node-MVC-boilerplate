@@ -31,7 +31,10 @@ export const list = async (req, res) => {
     const ${inputName}Find = await ${newinputName}.find(req.auth.filter, {}, paginations(req.query))
     .orFail(new Error('${newinputName} not found'))
 
-    res.status(200).json(successResponse(${inputName}Find))
+    const total${newinputName} = await ${newinputName}.countDocuments(req.auth.filter);
+    const totalPages = Math.ceil(total${newinputName} / (req.query.limit || 10));
+
+    res.status(200).json(successResponse({totalPages : totalPages, list : ${inputName}Find}))
   } catch (error) {
     res.status(400).json(errorResponse(error.message))
   }

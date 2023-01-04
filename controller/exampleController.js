@@ -1,14 +1,14 @@
 import { successResponse, errorResponse } from "../vendor/response.js";
 
 import Example from "../model/exampleModel.js";
-import paginations from "../vendor/pagination.js";
+import {pageCount, paginations} from "../vendor/pagination.js";
 import uploadFile from "../vendor/uploadFile.js";
 
 export const add = async (req, res) => {
   try {
     const newValue = await Example.create({
       example: req.body.example,
-      picture: uploadFile(req.files.picture, {lte : 10}).filePath,
+      picture: uploadFile(req.files.picture, {gte : 10}).filePath,
       userId : req.body.userId
     })
 
@@ -24,7 +24,9 @@ export const list = async (req, res) => {
     .populate("userId")
     .orFail(new Error('Example not found'))
 
-    res.status(200).json(successResponse(example))
+    const totalPages = pageCount(req.query, await Example.countDocuments(req.auth.filter));
+
+    res.status(200).json(successResponse({totalPages : totalPages, list : example}))
   } catch (error) {
     res.status(400).json(errorResponse(error.message))
   }
