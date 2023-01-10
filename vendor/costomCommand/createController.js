@@ -12,7 +12,7 @@ try {
 `import { successResponse, errorResponse } from "../vendor/response.js";
 
 import ${newinputName} from "../model/${inputName}Model.js";
-import paginations from "../vendor/pagination.js";
+import { paginations } from "../vendor/pagination.js";
 
 export const add = async (req, res) => {
     try {
@@ -31,7 +31,9 @@ export const list = async (req, res) => {
     const ${inputName}Find = await ${newinputName}.find(req.auth.filter, {}, paginations(req.query))
     .orFail(new Error('${newinputName} not found'))
 
-    res.status(200).json(successResponse(${inputName}Find))
+    const totalPages = pageCount(req.query, await ${newinputName}.countDocuments(req.auth.filter));
+
+    res.status(200).json(successResponse({totalPages : totalPages, list : ${inputName}Find}))
   } catch (error) {
     res.status(400).json(errorResponse(error.message))
   }

@@ -33,11 +33,11 @@ export default router`;
         throw err
       } else {
         let fileData2 = data.toString();
-        fileData2 = fileData2.split('\nexport')
-        .join(`rootRouter.use('/${inputName}', ${inputName }Route)\n\nexport`);
         fileData2 = fileData2.split('\nconst rootRouter')
         .join(`import ${inputName}Route from './v1/${fileName}'\n\nconst rootRouter`)
         fileData2 = fileData2.replace(fileData2, fileData2);
+        fileData2 = fileData2.split('\nexport')
+        .join(`rootRouter.use('/${inputName}', ${inputName }Route)\n\nexport`);
     
         fs.writeFile(filePath2, fileData2, (err) => {
           if (err) {
