@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 dotenv.config()
 
-const uploadFile = (file, filters) => {
+export const uploadFile = (file, filters) => {
   try {
     if (!file) {
       throw 'file not uploaded'
@@ -51,19 +51,27 @@ const uploadFile = (file, filters) => {
     
     const mime = file.mimetype.split("/")[0]
     const fileName = + Date.now() + '-' + file.name
-    const filePath = process.env.BASE_URL + `${mime}/` + fileName
-    file.mv(`public/${mime}/` + fileName)
+    const fileURI = process.env.BASE_URL + `${mime}/` + fileName
+    const filePath = `public/${mime}/` + fileName
 
     return {
+      fileURI : fileURI,
       filePath : filePath,
-      fileName : file.name,
+      fileName : fileName,
       encoding : file.encoding,
-      mimeType : file.mimetype,
-      size : file.size
+      mimeType : mime,
+      size : file.size,
+      file : file
     }
   } catch (error) {
     throw new Error(error)
   }
 }
 
-export default uploadFile
+export const saveFile = (file) => {
+  try {
+    file.file.mv(`public/${file.mimeType}/` + file.fileName)
+  } catch (error) {
+    throw new Error(error)
+  }
+}
