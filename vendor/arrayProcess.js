@@ -28,3 +28,7 @@ export const grupByObjectArray = (array, groupBy) => {
 export const objectToArrayObject = (object) => {
   return Object.entries(object).map(([group, count]) => ({ [group]: count }));
 }
+
+export const randomizeArray = (array) => {
+  return array.sort(() => Math.random() - 0.5);
+}

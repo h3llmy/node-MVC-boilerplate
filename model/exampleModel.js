@@ -1,16 +1,18 @@
 import mongoose from 'mongoose'
+import mongoose_autopopulate from 'mongoose-autopopulate'
 
 const example = new mongoose.Schema(
     {
         example : {
             type: String,
             required : true,
-            unique : true
+            unique : true,
         },
         userId : {
             type : mongoose.Schema.Types.ObjectId,
             ref : 'user',
-            required : true
+            required : true,
+            autopopulate: true
         },
         picture : {
             type : String,
@@ -40,6 +42,8 @@ example.pre('find', function () {
 example.pre('findOne', function () {
     this.where({ deletedAt: null })
 })
+
+example.plugin(mongoose_autopopulate)
 
 const Example = mongoose.model('example', example)
 

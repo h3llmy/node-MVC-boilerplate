@@ -21,7 +21,6 @@ export const add = async (req, res) => {
 export const list = async (req, res) => {
   try {
     const example =  await Example.find(req.auth.filter, {}, paginations(req.query))
-    .populate("userId")
     .orFail(new Error('Example not found'))
 
     const totalPages = pageCount(req.query, await Example.countDocuments(req.auth.filter));
@@ -35,7 +34,7 @@ export const list = async (req, res) => {
 export const detail = async (req, res) => {
   try {
     const example = await Example.findOne({
-      _id: req.params.example_id
+      "userId": req.params.example_id
     })
     .orFail(new Error('Example not found'))
 
