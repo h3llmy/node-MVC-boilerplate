@@ -13,6 +13,7 @@ connectMongoDB().then(conn => {
   console.log('\x1b[34m%s\x1b[0m', `MongoDB connected: ${conn.connection.host}`)
 })
 
+app.disable('x-powered-by')
 app.use(fileUpload())
 app.use(express.json())
 app.use(express.static('public'))

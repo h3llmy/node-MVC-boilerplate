@@ -2,14 +2,14 @@ import { successResponse, errorResponse } from "../vendor/response.js";
 
 import Example from "../model/exampleModel.js";
 import {pageCount, paginations} from "../vendor/pagination.js";
-import { saveFile, uploadFile } from "../vendor/uploadFile.js";
+import { deleteFile, saveFile, uploadFile } from "../vendor/uploadFile.js";
 
 export const add = async (req, res) => {
   try {
     const file = uploadFile(req.files.picture, {gte : 10})
     const newValue = await Example.create({
       example: req.body.example,
-      picture: file.fileURI,
+      picture: file.filePath,
       userId : req.body.userId
     })
 
@@ -17,7 +17,6 @@ export const add = async (req, res) => {
 
     res.status(200).json(successResponse(newValue))
   } catch (error) {
-    console.log(error);
     res.status(400).json(errorResponse(error.message))
   }
 }
@@ -73,6 +72,16 @@ export const remove = async (req, res) => {
     const deleteExample = await exampleData.save()
 
     res.status(200).json(successResponse(deleteExample, 'Example deleted'))
+  } catch (error) {
+    res.status(400).json(errorResponse(error.message))
+  }
+}
+
+export const removeFile = async (req, res) => {
+  try {
+    const exampleFind = await Example.findOne({ _id : req.params.file_id})
+    deleteFile(exampleFind.picture)
+    res.json(successResponse(exampleFind))
   } catch (error) {
     res.status(400).json(errorResponse(error.message))
   }

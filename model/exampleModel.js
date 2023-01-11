@@ -15,8 +15,7 @@ const example = new mongoose.Schema(
             autopopulate: true
         },
         picture : {
-            type : String,
-            required : true
+            type : String
         },
         isActive : {
             type : Boolean,

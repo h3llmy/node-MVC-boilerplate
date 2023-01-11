@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import fs from 'fs'
 dotenv.config()
 
 export const uploadFile = (file, filters) => {
@@ -51,11 +52,11 @@ export const uploadFile = (file, filters) => {
     
     const mime = file.mimetype.split("/")[0]
     const fileName = + Date.now() + '-' + file.name
-    const fileURI = process.env.BASE_URL + `${mime}/` + fileName
-    const filePath = `public/${mime}/` + fileName
+    const filePath = process.env.BASE_URL + `${mime}/` + fileName
+    // const filePath = `public/${mime}/` + fileName
 
     return {
-      fileURI : fileURI,
+      // fileURI : fileURI,
       filePath : filePath,
       fileName : fileName,
       encoding : file.encoding,
@@ -71,6 +72,22 @@ export const uploadFile = (file, filters) => {
 export const saveFile = (file) => {
   try {
     file.file.mv(`public/${file.mimeType}/` + file.fileName)
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const deleteFile = (file) => {
+  try {
+    const path = "'current', ../../public/" + file.split("/")[3] + "/" + file.split("/")[4]
+    if (fs.existsSync(path)) {
+      fs.unlink(path, (err) => {
+        if (err) throw err
+        return `file ${file.split("/")[4]} deleted`
+      })
+    } else {
+      throw `file ${file.split("/")[4]} not found`
+    }
   } catch (error) {
     throw new Error(error)
   }
