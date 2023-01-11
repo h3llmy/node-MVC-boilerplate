@@ -53,10 +53,8 @@ export const uploadFile = (file, filters) => {
     const mime = file.mimetype.split("/")[0]
     const fileName = + Date.now() + '-' + file.name
     const filePath = process.env.BASE_URL + `${mime}/` + fileName
-    // const filePath = `public/${mime}/` + fileName
 
     return {
-      // fileURI : fileURI,
       filePath : filePath,
       fileName : fileName,
       encoding : file.encoding,
