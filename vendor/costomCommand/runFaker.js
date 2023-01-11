@@ -16,7 +16,7 @@ try {
     throw `file ${process.argv[2]} not found`
   }
 
-  console.log('\x1b[34m%s\x1b[0m', `faker ${scripts.map(str => str.split('/')[1])} is running...`);
+  console.log('\x1b[34m%s\x1b[0m', `faker ${scripts.map(str => str.split('/')[1]).join(', ')} is running...`);
   scripts.forEach(script => {
     const child = spawn('node', [script]);
   
