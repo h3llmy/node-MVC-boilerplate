@@ -49,12 +49,20 @@ export const detail = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
+    const file = uploadFile(req.files.picture, {gte : 10})
     const example = await Example.findOne({_id: req.params.example_id})
     .orFail(new Error('Example not found'))
 
+    if (example.picture != file.filePath) {
+      deleteFile(example.picture)
+    }
+
     example.example = req.body.example || example.example
+    example.picture = file.filePath || example.picture
 
     const updateExample = await example.save()
+
+    await saveFile(file)
 
     res.status(200).json(successResponse(updateExample, 'Example updated'))
   } catch (error) {

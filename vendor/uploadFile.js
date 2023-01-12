@@ -84,7 +84,7 @@ export const deleteFile = (file) => {
         return `file ${file.split("/")[4]} deleted`
       })
     } else {
-      throw `file ${file.split("/")[4]} not found`
+      throw `file ${file.split("/")[4]} not found in : ${"public/" + file.split("/")[3] + "/" + file.split("/")[4]}`
     }
   } catch (error) {
     throw new Error(error)
