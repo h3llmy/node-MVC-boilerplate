@@ -18,14 +18,18 @@ export default async (emailHeader, path, payload) => {
     })
 
     let sendMail
-    let file = await fs.promises.readFile(`./vendor/emailTemplate/` + path, 'utf-8')
-    let message = file
-    Object.entries(payload).forEach(([key, value]) => {
-        let regex = new RegExp("{{" + key + "}}", "g");
-        message = message.replace(regex, value)
-    })
-    emailHeader.html = message.toString()
-    sendMail = await transporter.sendMail(emailHeader)
+    if (path && payload) {      
+      let file = await fs.promises.readFile(`./vendor/emailTemplate/` + path, 'utf-8')
+      let message = file
+      Object.entries(payload).forEach(([key, value]) => {
+          let regex = new RegExp("{{" + key + "}}", "g");
+          message = message.replace(regex, value)
+      })
+      emailHeader.html = message.toString()
+      sendMail = await transporter.sendMail(emailHeader)
+    } else {
+      sendMail = await transporter.sendMail(emailHeader)
+    }
     if (!sendMail) {
       return null
     }

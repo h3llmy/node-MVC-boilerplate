@@ -4,6 +4,7 @@ import cors from 'cors'
 import connectMongoDB from './connection/mongoDB.js'
 import router from './route/route.js'
 import fileUpload from 'express-fileupload'
+import helmet from 'helmet'
 
 dotenv.config()
 
@@ -14,6 +15,7 @@ connectMongoDB().then(conn => {
 })
 
 app.disable('x-powered-by')
+app.use(helmet())
 app.use(fileUpload())
 app.use(express.json())
 app.use(express.static('public'))

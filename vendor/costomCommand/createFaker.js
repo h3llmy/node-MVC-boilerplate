@@ -18,13 +18,14 @@ dotenv.config({path : '../../.env'})
 connectMongoDB()
 
 try {
+    const totalData = 10
     let ${inputName} = []
-    Array.from({ length: 10 }).forEach(() => {
+    for (let i = 0; i < totalData; i++) {  
         const ${inputName}Data = {
             name : faker.internet.userName()
         }
         ${inputName}.push(${inputName}Data)
-    });
+    };
     
     const create${newinputName} = await ${newinputName}.create(${inputName})
     if (!create${newinputName}) {

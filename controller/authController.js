@@ -8,94 +8,94 @@ import {emailCheck} from "../vendor/validator.js";
 dotenv.config()
 
 export const register = async (req, res) => {
-  try {
-      const randomOtp = (Math.floor(Math.random() * 100000) + 100000).toString().substring(1);
-      if (!emailCheck(req.body.email)) {
-          throw new Error("is not an email addres")
-      }
-
-      if (req.body.password != req.body.confirmPassword) {
-          throw new Error("password not match")
-      }    
-
-      const findUser = await User.findOne({ email : req.body.email })
-
-      if (findUser?.isActive == true) {
-          throw new Error("user already register")
-      }
-      if (findUser?.isActive == false) {
-          await findUser.remove()
-      }
-
-      const newUser = await User.create({
-          otp : randomOtp,
-          username: req.body.username,
-          email: req.body.email,
-          password: req.body.password
-      })
-
-      const tokenEmail = await generateToken({
-          id: newUser.id,
-          type: "register"
-      },"10m")
-
-      await newUser.save()
-
-      const emailHeader = {
-          from: 'Semua Kopi Indonesia <noreply@gmail.com>',
-          to: newUser.email,
-          subject: 'Activate Your Account',
-      }
-
-      nodeMailler(emailHeader, 'otp.html', {otp : randomOtp})
-          
-      res.status(200).json(successResponse(successResponse({token : tokenEmail})))
-      setTimeout(() => {
-        if (newUser.isActive == false) {
-          newUser.remove()
+    try {
+        const randomOtp = (Math.floor(Math.random() * 100000) + 100000).toString().substring(1);
+        if (!emailCheck(req.body.email)) {
+            throw new Error("is not an email addres")
         }
-      }, 600000)
-  } catch (error) {
-    res.status(400).json(errorResponse(error.message))
-  }
+
+        if (req.body.password != req.body.confirmPassword) {
+            throw new Error("password not match")
+        }    
+
+        const findUser = await User.findOne({ email : req.body.email })
+
+        if (findUser?.isActive == true) {
+            throw new Error("user already register")
+        }
+        if (findUser?.isActive == false) {
+            await findUser.remove()
+        }
+
+        const newUser = await User.create({
+            otp : randomOtp,
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password
+        })
+
+        const tokenEmail = await generateToken({
+            id: newUser.id,
+            type: "register"
+        },"10m")
+
+        await newUser.save()
+
+        const emailHeader = {
+            from: 'Semua Kopi Indonesia <noreply@gmail.com>',
+            to: newUser.email,
+            subject: 'Activate Your Account'
+        }
+
+        nodeMailler(emailHeader, 'otp.html', {otp : randomOtp})
+            
+        res.json(successResponse(successResponse({token : tokenEmail})))
+        setTimeout(() => {
+        if (newUser.isActive == false) {
+            newUser.remove()
+        }
+        }, 600000)
+    } catch (error) {
+        res.status(400).json(errorResponse(error))
+    }
 }
   
 export const resendOtp = async (req, res) => {
-  try {
-    const randomOtp = (Math.floor(Math.random() * 100000) + 100000).toString().substring(1);
-    const token = decodeToken(req.params.token)
-    const findUser = await User.findOne({ _id : token.id })
-    .orFail(new Error('user not found'))
+    try {
+        const randomOtp = (Math.floor(Math.random() * 100000) + 100000).toString().substring(1);
+        const token = decodeToken(req.params.token)
+        const findUser = await User.findOne({ _id : token.id })
+        .orFail(new Error('user not found'))
 
-    if (findUser?.isActive == true) {
-      throw new Error("user already register")
+        if (findUser?.isActive == true) {
+        throw new Error("user already register")
+        }
+
+        const tokenEmail = await generateToken({
+        id: findUser.id,
+        type: "register"
+        },"10m")
+
+        findUser.token = randomOtp
+
+        await findUser.save()
+        
+        const emailHeader = {
+        from: 'Semua Kopi Indonesia <noreply@gmail.com>',
+        to: findUser.email,
+        subject: 'Activate Your Account'
+        }
+
+        nodeMailler(emailHeader, 'otp.html', {otp : randomOtp})
+        res.json(successResponse({token : tokenEmail}))
+        setTimeout(() => {
+        if (newUser.isActive == false) {
+            newUser.remove()
+        }
+        }, 600000)
+    } catch (error) {
+        res.status(400).json(errorResponse(error))
     }
-
-    const tokenEmail = await generateToken({
-      id: findUser.id,
-      type: "register"
-    },"10m")
-
-    findUser.token = randomOtp
-
-    await findUser.save()
-    
-    const emailHeader = {
-      from: 'Semua Kopi Indonesia <noreply@gmail.com>',
-      to: findUser.email,
-      subject: 'Activate Your Account'
-    }
-
-    nodeMailler(emailHeader, 'otp.html', {otp : randomOtp})
-    res.status(200).json(successResponse({token : tokenEmail}))
-    setTimeout(() => {
-      if (newUser.isActive == false) {
-        newUser.remove()
-      }
-    }, 600000)
-  } catch (error) {
-    res.status(400).json(errorResponse(error.message))
-  }
 }
 
 export const updateStatus = async (req, res) => {
@@ -125,9 +125,9 @@ export const updateStatus = async (req, res) => {
         user.validator = undefined
     
         await user.save()
-        res.status(200).json(successResponse("account sucsses to verifid"))
+        res.json(successResponse("account sucsses to verifid"))
     } catch (error) {
-        res.status(400).json(errorResponse(error.message))
+        res.status(400).json(errorResponse(error))
     }
 }
 
@@ -150,9 +150,9 @@ export const login = async (req, res) => {
             type: "login"
         }, "30d")
 
-        res.status(200).json(successResponse({token : payload}))
+        res.json(successResponse({token : payload}))
     } catch (error) {
-        res.status(400).json(errorResponse(error.message))
+        res.status(400).json(errorResponse(error))
     }
 }
 
@@ -160,6 +160,9 @@ export const forgetPassword = async(req, res) => {
     try {
         if (!req.body.url) {
           throw new Error('redirect url required')
+        }
+        if (!emailCheck(req.body.email)) {
+            throw new Error('is not an email addres')
         }
         const findUser = await User.findOne({email : req.body.email })
         .orFail(new Error("email not found"))
@@ -179,9 +182,9 @@ export const forgetPassword = async(req, res) => {
         }
         nodeMailler(emailHeader, 'forgetPassword.html', {url : req.body.url, token : tokenReset})
         await findUser.save()
-        res.status(200).json(successResponse({token : tokenReset}))
+        res.json(successResponse({token : tokenReset}))
     } catch (error) {
-        res.status(400).json(errorResponse(error.message))
+        res.status(400).json(errorResponse(error))
     }
 }
 
@@ -204,8 +207,8 @@ export const resetPassword = async (req, res) => {
         findUser.password = req.body.newPassword
 
         await findUser.save()
-        res.status(200).json(successResponse("password has ben updated"))
+        res.json(successResponse("password has ben updated"))
     } catch (error) {
-        res.status(400).json(errorResponse(error.message))
+        res.status(400).json(errorResponse(error))
     }
 }

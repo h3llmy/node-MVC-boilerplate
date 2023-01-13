@@ -8,16 +8,17 @@ dotenv.config({path : '../../.env'})
 connectMongoDB()
 
 try {
+  const totalData = 10000
   let examples = []
   const user = await User.find().orFail(new Error('user not found'))
-  await Array.from({ length: 10 }).forEach(() => {
+  for (let i = 0; i < totalData; i++) {  
     const exampleData = {
       example : faker.internet.userName(),
       userId : user[faker.datatype.number({min : 0, max : user.length -1 })],
       picture : faker.image.avatar()
     }
     examples.push(exampleData)
-  });
+  }
 
   const createExample = await Example.create(examples)
   if (!createExample) {

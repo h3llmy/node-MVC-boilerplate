@@ -7,18 +7,19 @@ dotenv.config({path : '../../.env'})
 connectMongoDB()
 
 try {
+    const totalData = 100
     let user = []
     const status = ["user", "admin"]
-    Array.from({ length: 10 }).forEach(() => {
+    for (let i = 0; i < totalData; i++) {        
         const userData = {
-            username : faker.internet.userName(),
+            username : faker.internet.userName() + faker.datatype.number(),
             email : faker.internet.email(),
             password : faker.internet.password(),
             status : status[faker.datatype.number({min:0, max: status.length -1})],
             isActive : faker.datatype.boolean(),
         }
         user.push(userData)
-    });
+    }
     
     const createUser = await User.create(user)
     if (!createUser) {
