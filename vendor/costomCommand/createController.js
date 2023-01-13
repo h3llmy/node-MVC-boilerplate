@@ -20,9 +20,9 @@ export const add = async (req, res) => {
         example: req.body.example
       })
   
-      res.status(200).json(successResponse(new${newinputName}))
+      res.json(successResponse(new${newinputName}))
     } catch (error) {
-      res.status(400).json(errorResponse(error.message))
+      res.status(400).json(errorResponse(error))
     }
   }
   
@@ -33,9 +33,9 @@ export const list = async (req, res) => {
 
     const totalPages = pageCount(req.query, await ${newinputName}.countDocuments(req.auth.filter));
 
-    res.status(200).json(successResponse({totalPages : totalPages, list : ${inputName}Find}))
+    res.json(successResponse({totalPages : totalPages, list : ${inputName}Find}))
   } catch (error) {
-    res.status(400).json(errorResponse(error.message))
+    res.status(400).json(errorResponse(error))
   }
 }
 
@@ -46,9 +46,9 @@ export const detail = async (req, res) => {
     })
     .orFail(new Error('${newinputName} not found'))
 
-    res.status(200).json(successResponse(${inputName}Find))
+    res.json(successResponse(${inputName}Find))
   } catch (error) {
-    res.status(400).json(errorResponse(error.message))
+    res.status(400).json(errorResponse(error))
   }
 }
 
@@ -61,9 +61,9 @@ export const update = async (req, res) => {
 
     const update${newinputName} = await ${inputName}Find.save()
 
-    res.status(200).json(successResponse(update${newinputName}, 'Example updated'))
+    res.json(successResponse(update${newinputName}, 'Example updated'))
   } catch (error) {
-    res.status(400).json(errorResponse(error.message))
+    res.status(400).json(errorResponse(error))
   }
 }
 
@@ -76,9 +76,9 @@ export const remove = async (req, res) => {
 
     const delete${newinputName} = await ${inputName}Data.save()
 
-    res.status(200).json(successResponse(delete${newinputName}, 'Example deleted'))
+    res.json(successResponse(delete${newinputName}, 'Example deleted'))
   } catch (error) {
-    res.status(400).json(errorResponse(error.message))
+    res.status(400).json(errorResponse(error))
   }
 }`;
 

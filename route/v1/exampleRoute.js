@@ -9,6 +9,6 @@ const router = express.Router()
     router.get('/detail/:example_id', detail)
     router.put('/update/:example_id', update)
     router.delete('/delete/:example_id', remove)
-    router.delete('/remove/:file_id', removeFile)
+    router.delete('/delete/file/:file_id', removeFile)
 
 export default router

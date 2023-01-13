@@ -15,9 +15,9 @@ export const add = async (req, res) => {
 
     saveFile(file)
 
-    res.status(200).json(successResponse(newValue))
+    res.json(successResponse(newValue))
   } catch (error) {
-    res.status(400).json(errorResponse(error.message))
+    res.status(400).json(errorResponse(error))
   }
 }
   
@@ -28,9 +28,9 @@ export const list = async (req, res) => {
 
     const totalPages = pageCount(req.query, await Example.countDocuments(req.auth.filter));
 
-    res.status(200).json(successResponse({totalPages : totalPages, list : example}))
+    res.json(successResponse({totalPages : totalPages, list : example}))
   } catch (error) {
-    res.status(400).json(errorResponse(error.message))
+    res.status(400).json(errorResponse(error))
   }
 }
 
@@ -41,24 +41,32 @@ export const detail = async (req, res) => {
     })
     .orFail(new Error('Example not found'))
 
-    res.status(200).json(successResponse(example))
+    res.json(successResponse(example))
   } catch (error) {
-    res.status(400).json(errorResponse(error.message))
+    res.status(400).json(errorResponse(error))
   }
 }
 
 export const update = async (req, res) => {
   try {
+    const file = uploadFile(req.files.picture, {gte : 10})
     const example = await Example.findOne({_id: req.params.example_id})
     .orFail(new Error('Example not found'))
 
+    if (example.picture != file.filePath) {
+      deleteFile(example.picture)
+    }
+
     example.example = req.body.example || example.example
+    example.picture = file.filePath || example.picture
 
     const updateExample = await example.save()
 
-    res.status(200).json(successResponse(updateExample, 'Example updated'))
+    await saveFile(file)
+
+    res.json(successResponse(updateExample, 'Example updated'))
   } catch (error) {
-    res.status(400).json(errorResponse(error.message))
+    res.status(400).json(errorResponse(error))
   }
 }
 
@@ -71,9 +79,9 @@ export const remove = async (req, res) => {
 
     const deleteExample = await exampleData.save()
 
-    res.status(200).json(successResponse(deleteExample, 'Example deleted'))
+    res.json(successResponse(deleteExample, 'Example deleted'))
   } catch (error) {
-    res.status(400).json(errorResponse(error.message))
+    res.status(400).json(errorResponse(error))
   }
 }
 
@@ -83,6 +91,6 @@ export const removeFile = async (req, res) => {
     deleteFile(exampleFind.picture)
     res.json(successResponse(exampleFind))
   } catch (error) {
-    res.status(400).json(errorResponse(error.message))
+    res.status(400).json(errorResponse(error))
   }
 }
