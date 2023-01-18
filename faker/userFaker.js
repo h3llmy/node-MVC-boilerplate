@@ -23,11 +23,11 @@ try {
     
     const createUser = await User.create(user)
     if (!createUser) {
-    throw 'failed to generate User'
+    throw new Error('failed to generate User')
     }
-    console.log('[32m%s[0m', "User data created");
+    console.log('[32m%s[0m', "userFaker success");
     process.exit(1)
 } catch (error) {
-    console.log('[31m%s[0m', error.message);
+    console.log('[31m%s[0m', "userFaker failed : " + error.message);
     process.exit(1)
 }

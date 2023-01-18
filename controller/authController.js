@@ -1,6 +1,6 @@
-import nodeMailler from "../vendor/nodeMailler.js";
+import nodeMailler from "../service/nodeMailler.js";
 import { successResponse, errorResponse } from "../vendor/response.js";
-import { decodeToken, generateToken } from "../vendor/jwtToken.js";
+import { decodeToken, generateToken } from "../service/jwtToken.js";
 import dotenv from 'dotenv';
 import User from "../model/userModel.js";
 import {emailCheck} from "../vendor/validator.js";
@@ -44,14 +44,18 @@ export const register = async (req, res) => {
         const emailHeader = {
             from: 'Semua Kopi Indonesia <noreply@gmail.com>',
             to: newUser.email,
-            subject: 'Activate Your Account'
+            subject: 'Activate Your Account',
+            html : {
+                otp : randomOtp
+            }
         }
 
-        nodeMailler(emailHeader, 'otp.html', {otp : randomOtp})
+        await nodeMailler(emailHeader, 'otp.html')
             
-        res.json(successResponse(successResponse({token : tokenEmail})))
-        setTimeout(() => {
-        if (newUser.isActive == false) {
+        res.json(successResponse({token : tokenEmail}))
+        setTimeout(async () => {
+            const userCheck = await User.findOne({ _id : newUser.id})
+        if (userCheck.isActive == false) {
             newUser.remove()
         }
         }, 600000)
@@ -72,8 +76,8 @@ export const resendOtp = async (req, res) => {
         }
 
         const tokenEmail = await generateToken({
-        id: findUser.id,
-        type: "register"
+            id: findUser.id,
+            type: "register"
         },"10m")
 
         findUser.token = randomOtp
@@ -81,15 +85,19 @@ export const resendOtp = async (req, res) => {
         await findUser.save()
         
         const emailHeader = {
-        from: 'Semua Kopi Indonesia <noreply@gmail.com>',
-        to: findUser.email,
-        subject: 'Activate Your Account'
+            from: 'Semua Kopi Indonesia <noreply@gmail.com>',
+            to: findUser.email,
+            subject: 'Activate Your Account',
+            html : {
+                otp : randomOtp
+            }
         }
 
-        nodeMailler(emailHeader, 'otp.html', {otp : randomOtp})
+        nodeMailler(emailHeader, 'otp.html')
         res.json(successResponse({token : tokenEmail}))
-        setTimeout(() => {
-        if (newUser.isActive == false) {
+        setTimeout(async () => {
+            const userCheck = await User.findOne({ _id : newUser.id})
+        if (userCheck.isActive == false) {
             newUser.remove()
         }
         }, 600000)
@@ -179,8 +187,12 @@ export const forgetPassword = async(req, res) => {
             from: 'Semua Kopi Indonesia <noreply@gmail.com>',
             to: findUser.email,
             subject: 'Forget Your Password',
+            html : {
+                url : req.body.url,
+                token : tokenReset
+            }
         }
-        nodeMailler(emailHeader, 'forgetPassword.html', {url : req.body.url, token : tokenReset})
+        nodeMailler(emailHeader, 'forgetPassword.html')
         await findUser.save()
         res.json(successResponse({token : tokenReset}))
     } catch (error) {
