@@ -1,18 +1,17 @@
 import nodeMailler from "../service/nodeMailler.js";
 import { successResponse, errorResponse } from "../vendor/response.js";
 import { decodeToken, generateToken } from "../service/jwtToken.js";
-import dotenv from 'dotenv';
 import User from "../model/userModel.js";
-import {emailCheck} from "../vendor/validator.js";
-
-dotenv.config()
+import validate from "../vendor/validator.js";
 
 export const register = async (req, res) => {
     try {
+        validate(req.body, {
+            email: {required: true, isEmail: true, type: String},
+            password: {required: true, type: String, min: 8, max: 12},
+            confirmPassword: {required: true, type: String, min: 8, max: 12},
+        })
         const randomOtp = (Math.floor(Math.random() * 100000) + 100000).toString().substring(1);
-        if (!emailCheck(req.body.email)) {
-            throw new Error("is not an email addres")
-        }
 
         if (req.body.password != req.body.confirmPassword) {
             throw new Error("password not match")
@@ -96,9 +95,9 @@ export const resendOtp = async (req, res) => {
         nodeMailler(emailHeader, 'otp.html')
         res.json(successResponse({token : tokenEmail}))
         setTimeout(async () => {
-            const userCheck = await User.findOne({ _id : newUser.id})
+            const userCheck = await User.findOne({ _id : findUser.id})
         if (userCheck.isActive == false) {
-            newUser.remove()
+            findUser.remove()
         }
         }, 600000)
     } catch (error) {
@@ -141,6 +140,10 @@ export const updateStatus = async (req, res) => {
 
 export const login = async (req, res) => {
     try {
+        validate(req.body, {
+            username: {required: true, type: String},
+            password: {required: true, type: String},
+        })
         const user = await User.findOne({ username : req.body.username })
         .orFail(new Error("Invalid username or password"))
         if (!req.body.password) {
@@ -166,12 +169,10 @@ export const login = async (req, res) => {
 
 export const forgetPassword = async(req, res) => {
     try {
-        if (!req.body.url) {
-          throw new Error('redirect url required')
-        }
-        if (!emailCheck(req.body.email)) {
-            throw new Error('is not an email addres')
-        }
+        validate(req.body, {
+            email: {required: true, type: String, isEmail: true},
+            url: {required: true, type: String}
+        })
         const findUser = await User.findOne({email : req.body.email })
         .orFail(new Error("email not found"))
         if (findUser.isActive == false) {
@@ -202,6 +203,10 @@ export const forgetPassword = async(req, res) => {
 
 export const resetPassword = async (req, res) => {
     try {
+        validate(req.body, {
+            newPassword: {required: true, type: String},
+            confirmNewPassword: {required: true, type: String},
+        })
         if (req.body.newPassword != req.body.confirmNewPassword) {
             throw new Error("password not match")
         }

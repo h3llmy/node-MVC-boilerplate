@@ -3,9 +3,15 @@ import { successResponse, errorResponse } from "../vendor/response.js";
 import Example from "../model/exampleModel.js";
 import {pageCount, paginations} from "../vendor/pagination.js";
 import { deleteFile, saveFile, uploadFile } from "../vendor/uploadFile.js";
+import validate from "../vendor/validator.js";
 
 export const add = async (req, res) => {
   try {
+    validate(req.body, {
+      example: {required: true, type: String},
+      userId: {required: true, type: String}
+    })
+    
     const file = uploadFile(req.files.picture, {gte : 10})
     const newValue = await Example.create({
       example: req.body.example,
@@ -24,7 +30,6 @@ export const add = async (req, res) => {
 export const list = async (req, res) => {
   try {
     const example =  await Example.find(req.auth.filter, {}, paginations(req.query))
-    .orFail(new Error('Example not found'))
 
     const totalPages = pageCount(req.query, await Example.countDocuments(req.auth.filter));
 

@@ -13,9 +13,13 @@ try {
 
 import ${newinputName} from "../model/${inputName}Model.js";
 import { paginations } from "../vendor/pagination.js";
+import validate from "../vendor/validator.js";
 
 export const add = async (req, res) => {
     try {
+      validate(req.body, {
+        example : {required: true, type: String}
+      })
       const new${newinputName} = await ${newinputName}.create({
         example: req.body.example
       })
@@ -28,8 +32,11 @@ export const add = async (req, res) => {
   
 export const list = async (req, res) => {
   try {
+    validate(req.query, {
+      page : {type: Number},
+      limit : {type: Number},
+    })
     const ${inputName}Find = await ${newinputName}.find(req.auth.filter, {}, paginations(req.query))
-    .orFail(new Error('${newinputName} not found'))
 
     const totalPages = pageCount(req.query, await ${newinputName}.countDocuments(req.auth.filter));
 
@@ -41,6 +48,9 @@ export const list = async (req, res) => {
 
 export const detail = async (req, res) => {
   try {
+    validate(req.params, {
+      ${inputName}_id : {required: true, type: String}
+    })
     const ${inputName}Find = await ${newinputName}.findOne({
       _id: req.params.${inputName}_id
     })
@@ -54,14 +64,20 @@ export const detail = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    const ${inputName}Find = await ${newinputName}.findOne({_id: req.params.example_id})
+    validate(req.body, {
+      example : {required: true, type: String}
+    })
+    validate(req.params, {
+      ${inputName}_id : {required: true, type: String}
+    })
+    const ${inputName}Find = await ${newinputName}.findOne({_id: req.params.${inputName}_id})
     .orFail(new Error('${newinputName} not found'))
 
     ${inputName}Find.example = req.body.example || ${inputName}Find.example
 
     const update${newinputName} = await ${inputName}Find.save()
 
-    res.json(successResponse(update${newinputName}, 'Example updated'))
+    res.json(successResponse(update${newinputName}, '${newinputName} updated'))
   } catch (error) {
     res.status(400).json(errorResponse(error))
   }
@@ -69,14 +85,17 @@ export const update = async (req, res) => {
 
 export const remove = async (req, res) => {
   try {  
-    const ${inputName}Data = await ${newinputName}.findOne({ _id: req.params.example_id })
+    validate(req.params, {
+      ${inputName}_id : {required: true, type: String}
+    })
+    const ${inputName}Data = await ${newinputName}.findOne({ _id: req.params.${inputName}_id })
     .orFail(new Error('${newinputName} not found'))
 
     ${inputName}Data.deletedAt = new Date()
 
     const delete${newinputName} = await ${inputName}Data.save()
 
-    res.json(successResponse(delete${newinputName}, 'Example deleted'))
+    res.json(successResponse(delete${newinputName}, '${newinputName} deleted'))
   } catch (error) {
     res.status(400).json(errorResponse(error))
   }
