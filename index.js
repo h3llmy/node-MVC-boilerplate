@@ -15,7 +15,12 @@ connectMongoDB().then(conn => {
 })
 
 app.use(helmet())
-app.use(fileUpload())
+app.use(fileUpload(),(req, res, next) => {
+  if (!req.files) {
+    req.files = {}
+  }
+  next()
+})
 app.use(express.json())
 app.use(express.static('public'))
 var appOrigin = process.env.CORS_ORIGIN

@@ -1,7 +1,7 @@
 {
-  "name": "node-template",
+  "name": "node-boilerplate",
   "version": "1.0.0",
-  "description": "",
+  "description": "fast way to make rest api XD",
   "main": "index.js",
   "type": "module",
   "scripts": {

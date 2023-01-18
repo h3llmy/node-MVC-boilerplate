@@ -11,15 +11,20 @@ export const add = async (req, res) => {
       example: {required: true, type: String},
       userId: {required: true, type: String}
     })
+    validate(req.files, {
+      picture: {type: Object}
+    })
     
     const file = uploadFile(req.files.picture, {gte : 10})
     const newValue = await Example.create({
       example: req.body.example,
-      picture: file.filePath,
+      picture: file?.filePath,
       userId : req.body.userId
     })
 
-    saveFile(file)
+    if (file) {
+      saveFile(file)
+    }
 
     res.json(successResponse(newValue))
   } catch (error) {
@@ -54,6 +59,12 @@ export const detail = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
+    validate(req.body, {
+      example: {required: true, type: String}
+    })
+    validate(req.files, {
+      picture: {required: true, type: Object}
+    })
     const file = uploadFile(req.files.picture, {gte : 10})
     const example = await Example.findOne({_id: req.params.example_id})
     .orFail(new Error('Example not found'))

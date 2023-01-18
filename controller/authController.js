@@ -92,7 +92,7 @@ export const resendOtp = async (req, res) => {
             }
         }
 
-        nodeMailler(emailHeader, 'otp.html')
+        await nodeMailler(emailHeader, 'otp.html')
         res.json(successResponse({token : tokenEmail}))
         setTimeout(async () => {
             const userCheck = await User.findOne({ _id : findUser.id})
@@ -107,6 +107,9 @@ export const resendOtp = async (req, res) => {
 
 export const updateStatus = async (req, res) => {
     try {
+        validate(req.body, {
+            otp: {required: true, type: String}
+        })
         const decoded = await decodeToken(req.params.token)
         if (decoded.type != "register") {
             throw new Error("invalid token")
@@ -171,7 +174,7 @@ export const forgetPassword = async(req, res) => {
     try {
         validate(req.body, {
             email: {required: true, type: String, isEmail: true},
-            url: {required: true, type: String}
+            url: {required: true, type: String, isUrl: true}
         })
         const findUser = await User.findOne({email : req.body.email })
         .orFail(new Error("email not found"))
@@ -193,7 +196,7 @@ export const forgetPassword = async(req, res) => {
                 token : tokenReset
             }
         }
-        nodeMailler(emailHeader, 'forgetPassword.html')
+        await nodeMailler(emailHeader, 'forgetPassword.html')
         await findUser.save()
         res.json(successResponse({token : tokenReset}))
     } catch (error) {
