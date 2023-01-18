@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import fs from 'fs'
 dotenv.config()
 
-export default async (emailHeader, path, payload) => {
+export default async (emailHeader, path) => {
   try {
     const transporter = nodemailer.createTransport({
       host: process.env.MAILLER_HOST,
@@ -18,20 +18,17 @@ export default async (emailHeader, path, payload) => {
     })
 
     let sendMail
-    if (path && payload) {      
-      let file = await fs.promises.readFile(`./vendor/emailTemplate/` + path, 'utf-8')
-      let message = file
-      Object.entries(payload).forEach(([key, value]) => {
+    if (path && typeof emailHeader.html == 'object') {      
+      let file = await fs.promises.readFile(`./vendor/emailTemplate/${path}`, 'utf-8')
+      Object.entries(emailHeader.html).forEach(([key, value]) => {
           let regex = new RegExp("{{" + key + "}}", "g");
-          message = message.replace(regex, value)
+          file = file.replace(regex, value)
       })
-      emailHeader.html = message.toString()
-      sendMail = await transporter.sendMail(emailHeader)
-    } else {
-      sendMail = await transporter.sendMail(emailHeader)
+      emailHeader.html = file
     }
+    sendMail = await transporter.sendMail(emailHeader)
     if (!sendMail) {
-      return null
+      return new Error('email not sended')
     }
     return sendMail
   } catch (error) {

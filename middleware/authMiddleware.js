@@ -1,5 +1,5 @@
 import User from "../model/userModel.js";
-import { decodeToken } from "../vendor/jwtToken.js";
+import { decodeToken } from "../service/jwtToken.js";
 import { errorResponse } from "../vendor/response.js";
 
 export const auth = async (req, res, next) => {
@@ -14,7 +14,7 @@ export const auth = async (req, res, next) => {
             if (payload.type != "login") {
                 throw "invalid authorization"
             }
-            const findUser = await User.findById({ _id : payload.id }).select('-password -otp')
+            const findUser = await User.findById({ _id : payload.id }).select('_id status')
             if (!findUser) {
                 throw "invalid authorization"
             }
@@ -60,7 +60,7 @@ export const isPublic = async (req, res, next) => {
                 if (payload.type != "login") {
                     throw "invalid authorization"
                 }
-                const findUser = await User.findById({ _id : payload.id }).select('-password').select('-otp')
+                const findUser = await User.findById({ _id : payload.id }).select('_id status')
                 if (!findUser) {
                     throw "invalid authorization"
                 }

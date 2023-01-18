@@ -29,12 +29,12 @@ try {
     
     const create${newinputName} = await ${newinputName}.create(${inputName})
     if (!create${newinputName}) {
-    throw 'failed to generate ${newinputName}'
+    throw new Error('failed to generate ${newinputName}')
     }
-    console.log('\x1b[32m%s\x1b[0m', "${newinputName} data created");
+    console.log('\x1b[32m%s\x1b[0m', "${inputName}Faker success");
     process.exit(1)
 } catch (error) {
-    console.log('\x1b[31m%s\x1b[0m', error.message);
+    console.log('\x1b[31m%s\x1b[0m', "${inputName}Faker failed : " + error.message);
     process.exit(1)
 }`;
 

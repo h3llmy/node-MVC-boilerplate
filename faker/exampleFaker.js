@@ -8,7 +8,7 @@ dotenv.config({path : '../../.env'})
 connectMongoDB()
 
 try {
-  const totalData = 10000
+  const totalData = 10
   let examples = []
   const user = await User.find().orFail(new Error('user not found'))
   for (let i = 0; i < totalData; i++) {  
@@ -22,11 +22,11 @@ try {
 
   const createExample = await Example.create(examples)
   if (!createExample) {
-    throw 'failed to generate Example'
+    throw new Error('failed to generate Example')
   }
-  console.log('\x1b[32m%s\x1b[0m', "Example data created");
+  console.log('\x1b[32m%s\x1b[0m', "exampleFaker success");
   process.exit(1)
 } catch (error) {
-  console.log('\x1b[31m%s\x1b[0m', error.message);
+  console.log('\x1b[31m%s\x1b[0m', "exampleFaker failed : " + error.message);
   process.exit(1)
 }
