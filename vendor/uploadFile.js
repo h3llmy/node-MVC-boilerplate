@@ -4,8 +4,11 @@ dotenv.config()
 
 export const uploadFile = (file, filters) => {
   try {
-    if (!file) {
-      throw 'file not uploaded'
+    console.log(file);
+    if (filters.required) {      
+      if (!file) {
+        throw 'file required'
+      }
     }
     if (filters) {      
       if (filters.gte) {
