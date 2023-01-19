@@ -104,7 +104,13 @@ export const remove = async (req, res) => {
 export const removeFile = async (req, res) => {
   try {
     const exampleFind = await Example.findOne({ _id : req.params.file_id})
-    deleteFile(exampleFind.picture)
+    .orFail(new Error('example not found'))
+    
+    await deleteFile(exampleFind.picture)
+
+    exampleFind.picture = undefined
+
+    exampleFind.save()
     res.json(successResponse(exampleFind))
   } catch (error) {
     res.status(400).json(errorResponse(error))

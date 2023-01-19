@@ -1,4 +1,4 @@
-import nodeMailler from "../service/nodeMailler.js";
+import sendMail from "../service/nodeMailler.js";
 import { successResponse, errorResponse } from "../vendor/response.js";
 import { decodeToken, generateToken } from "../service/jwtToken.js";
 import User from "../model/userModel.js";
@@ -8,6 +8,7 @@ export const register = async (req, res) => {
     try {
         validate(req.body, {
             email: {required: true, isEmail: true, type: String},
+            username: {required: true, type: String},
             password: {required: true, type: String, min: 8, max: 12},
             confirmPassword: {required: true, type: String, min: 8, max: 12},
         })
@@ -49,13 +50,13 @@ export const register = async (req, res) => {
             }
         }
 
-        await nodeMailler(emailHeader, 'otp.html')
+        await sendMail(emailHeader, 'otp.html')
             
         res.json(successResponse({token : tokenEmail}))
         setTimeout(async () => {
             const userCheck = await User.findOne({ _id : newUser.id})
         if (userCheck.isActive == false) {
-            newUser.remove()
+            userCheck.remove()
         }
         }, 600000)
     } catch (error) {
@@ -92,12 +93,12 @@ export const resendOtp = async (req, res) => {
             }
         }
 
-        await nodeMailler(emailHeader, 'otp.html')
+        await sendMail(emailHeader, 'otp.html')
         res.json(successResponse({token : tokenEmail}))
         setTimeout(async () => {
             const userCheck = await User.findOne({ _id : findUser.id})
         if (userCheck.isActive == false) {
-            findUser.remove()
+            userCheck.remove()
         }
         }, 600000)
     } catch (error) {
@@ -196,7 +197,7 @@ export const forgetPassword = async(req, res) => {
                 token : tokenReset
             }
         }
-        await nodeMailler(emailHeader, 'forgetPassword.html')
+        await sendMail(emailHeader, 'forgetPassword.html')
         await findUser.save()
         res.json(successResponse({token : tokenReset}))
     } catch (error) {
