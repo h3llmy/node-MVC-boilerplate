@@ -13,16 +13,19 @@ export default async (emailHeader, path) => {
       requireTLS: true,
       auth: {
         user: process.env.MAILLER_USERNAME,
-        pass: process.env.MAILLER_PASSWORD
-      }
+        pass: process.env.MAILLER_PASSWORD,
+      },
     })
 
     let sendMail
-    if (path && typeof emailHeader.html == 'object') {      
-      let file = await fs.promises.readFile(`./vendor/emailTemplate/${path}`, 'utf-8')
+    if (path && typeof emailHeader.html == 'object') {
+      let file = await fs.promises.readFile(
+        `./vendor/emailTemplate/${path}`,
+        'utf-8'
+      )
       Object.entries(emailHeader.html).forEach(([key, value]) => {
-          let regex = new RegExp("{{" + key + "}}", "g");
-          file = file.replace(regex, value)
+        let regex = new RegExp('{{' + key + '}}', 'g')
+        file = file.replace(regex, value)
       })
       emailHeader.html = file
     }
@@ -35,4 +38,3 @@ export default async (emailHeader, path) => {
     throw new Error(error)
   }
 }
-

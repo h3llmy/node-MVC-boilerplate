@@ -6,10 +6,10 @@ export const uploadFile = (file, filters) => {
   try {
     if (filters?.required) {
       throw 'file is required'
-    }else if (!file) {
+    } else if (!file) {
       return null
     }
-    if (filters) {      
+    if (filters) {
       if (filters.gte) {
         if (file.size <= filters.gte) {
           throw 'file size not allowed'
@@ -40,8 +40,8 @@ export const uploadFile = (file, filters) => {
           throw 'file size not allowed'
         }
       }
-      if (filters.mimeType) {   
-        if (!file.mimetype.split("/")[0].includes(filters.mimeType)) {
+      if (filters.mimeType) {
+        if (!file.mimetype.split('/')[0].includes(filters.mimeType)) {
           throw 'mime type not allowd'
         }
       }
@@ -51,18 +51,18 @@ export const uploadFile = (file, filters) => {
         }
       }
     }
-    
-    const mime = file.mimetype.split("/")[0]
-    const fileName = + Date.now() + '-' + file.name
+
+    const mime = file.mimetype.split('/')[0]
+    const fileName = +Date.now() + '-' + file.name
     const filePath = process.env.BASE_URL + `${mime}/` + fileName
 
     return {
-      filePath : filePath,
-      fileName : fileName,
-      encoding : file.encoding,
-      mimeType : mime,
-      size : file.size,
-      file : file
+      filePath: filePath,
+      fileName: fileName,
+      encoding: file.encoding,
+      mimeType: mime,
+      size: file.size,
+      file: file,
     }
   } catch (error) {
     throw new Error(error)
@@ -79,14 +79,17 @@ export const saveFile = (file) => {
 
 export const deleteFile = (file) => {
   try {
-    const path = "'current', ../../public/" + file.split("/")[3] + "/" + file.split("/")[4]
+    const path =
+      "'current', ../../public/" + file.split('/')[3] + '/' + file.split('/')[4]
     if (fs.existsSync(path)) {
       fs.unlink(path, (err) => {
         if (err) throw err
-        return `file ${file.split("/")[4]} deleted`
+        return `file ${file.split('/')[4]} deleted`
       })
     } else {
-      return `file ${file.split("/")[4]} not found in : ${"public/" + file.split("/")[3] + "/" + file.split("/")[4]}`
+      return `file ${file.split('/')[4]} not found in : ${
+        'public/' + file.split('/')[3] + '/' + file.split('/')[4]
+      }`
     }
   } catch (error) {
     throw new Error(error)
