@@ -5,7 +5,7 @@ dotenv.config()
 export const generateToken = (payload, expiresIn) => {
   try {
     return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
-      expiresIn: expiresIn
+      expiresIn: expiresIn,
     })
   } catch (error) {
     throw new Error(error)
