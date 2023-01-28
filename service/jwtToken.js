@@ -12,9 +12,27 @@ export const generateToken = (payload, expiresIn) => {
   }
 }
 
+export const generateRefreshToken = (payload, expiresIn) => {
+  try {
+    return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+      expiresIn: expiresIn,
+    })
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 export const decodeToken = (payload) => {
   try {
     return jwt.verify(payload, process.env.ACCESS_TOKEN_SECRET)
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export const decodeRefreshToken = (payload) => {
+  try {
+    return jwt.verify(payload, process.env.REFRESH_TOKEN_SECRET)
   } catch (error) {
     throw new Error(error)
   }
