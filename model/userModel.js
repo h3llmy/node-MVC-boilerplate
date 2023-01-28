@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import bcrypt from 'bcrypt'
 import { emailCheck } from '../vendor/validator.js'
+import { comparePassword, hasPassword } from '../service/bcrypt.js'
 
 const userSchema = new mongoose.Schema(
   {
@@ -48,17 +48,16 @@ const userSchema = new mongoose.Schema(
   }
 )
 
-userSchema.pre('save', function (next) {
-  if (!this.isModified('password')) return next()
-  bcrypt.hash(this.password, 10, (err, password) => {
-    if (err) return next(err)
-    this.password = password
-    next()
-  })
+userSchema.pre('save', async function (next) {
+  if (this.isModified('password')) {
+    const hasedPassword = await hasPassword(this.password)
+    this.password = hasedPassword
+  }
+  next()
 })
 
 userSchema.methods.matchPassword = function (enteredPassword) {
-  return bcrypt.compareSync(enteredPassword, this.password)
+  return comparePassword(enteredPassword, this.password)
 }
 
 userSchema.pre('countDocuments', function () {
