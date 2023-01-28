@@ -7,6 +7,7 @@ export const successResponse = (data, message) => {
 }
 
 export const errorResponse = (message) => {
+  console.log(message);
   if (typeof message === 'string') {
     return { message: message }
   }
