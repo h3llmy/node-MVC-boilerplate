@@ -4,7 +4,7 @@ import Example from '../model/exampleModel.js'
 import { pageCount, paginations } from '../vendor/pagination.js'
 import { deleteFile, saveFile, uploadFile } from '../vendor/uploadFile.js'
 import validate from '../vendor/validator.js'
-import fs from 'fs'
+import createCsv from '../vendor/createCsv.js'
 
 export const add = async (req, res) => {
   try {
@@ -54,29 +54,18 @@ export const list = async (req, res) => {
 
 export const createReport = async (req, res) => {
   try {
-    const fileName = Date.now()
-    const examples = await Example.find().cursor()
-    fs.writeFile(
-      `'current', ../../public/text/${fileName}.csv`,
-      'example, picture, userId, createdAt\n',
-      (err) => {
-        if (err) {
-          throw new Error(err)
-        }
-      }
-    )
-    examples.on('data', (example) => {
-      fs.appendFile(
-        `'current', ../../public/text/${fileName}.csv`,
-        `${example.example}, ${example.picture}, ${example.userId.id}, ${example.createdAt}\n`,
-        (err) => {
-          if (err) {
-            throw new Error(err)
-          }
-        }
+    const fileName = 'report-' + Date.now()
+    const examples = Example.find().cursor()
+
+    let report
+    examples.on('data', async (example) => {
+      report = await createCsv(fileName,
+        { example: example.example, picture: example.picture, userId: example.userId.id, createdAt: example.createdAt }
       )
     })
-    res.json({ fileUrl: process.env.BASE_URL + `text/${fileName}.csv` })
+    examples.on('end', () => {
+      res.json(report)
+    })
   } catch (error) {
     res.status(400).json(errorResponse(error))
   }
