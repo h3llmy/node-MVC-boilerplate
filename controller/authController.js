@@ -1,6 +1,6 @@
 import sendMail from '../service/nodeMailler.js'
 import { successResponse, errorResponse } from '../vendor/response.js'
-import { decodeToken, generateToken } from '../service/jwtToken.js'
+import { decodeRefreshToken, decodeToken, generateRefreshToken, generateToken } from '../service/jwtToken.js'
 import User from '../model/userModel.js'
 import validate from '../vendor/validator.js'
 
@@ -171,7 +171,15 @@ export const login = async (req, res) => {
       throw new Error('Invalid username or password')
     }
 
-    const payload = await generateToken(
+    const accessToken = await generateToken(
+      {
+        id: user._id,
+        type: 'login',
+      },
+      '30s'
+    )
+
+    const refreshToken = await generateRefreshToken(
       {
         id: user._id,
         type: 'login',
@@ -179,7 +187,10 @@ export const login = async (req, res) => {
       '30d'
     )
 
-    res.json(successResponse({ token: payload }))
+    res.json(successResponse({
+      accessToken: accessToken,
+      refreshToken: refreshToken
+    }))
   } catch (error) {
     res.status(400).json(errorResponse(error))
   }
@@ -248,6 +259,35 @@ export const resetPassword = async (req, res) => {
 
     await findUser.save()
     res.json(successResponse('password has ben updated'))
+  } catch (error) {
+    res.status(400).json(errorResponse(error))
+  }
+}
+
+export const refreshToken = async (req, res) => {
+  try {
+    validate(req.body, {
+      refreshToken: { required: true, type: String }
+    })
+    const decodedRefreshToken = await decodeRefreshToken(req.body.refreshToken)
+    const userCheck = await User.findOne({ _id: decodedRefreshToken.id }).orFail(
+      new Error('user not found')
+    )
+
+    const newAccessToken = await generateToken({
+      id: userCheck.id,
+      type: 'login'
+    }, '30s')
+
+    const newRefreshToken = await generateRefreshToken({
+      id: userCheck.id,
+      type: 'login'
+    }, '30d')
+
+    res.json(successResponse({
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken
+    }))
   } catch (error) {
     res.status(400).json(errorResponse(error))
   }

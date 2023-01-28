@@ -2,6 +2,7 @@ import express from 'express'
 import {
   forgetPassword,
   login,
+  refreshToken,
   register,
   resendOtp,
   resetPassword,
@@ -13,6 +14,7 @@ const router = express.Router()
 router.post('/register', register)
 router.put('/update/status/:token', updateStatus)
 router.post('/login', login)
+router.post('/refresh/token', refreshToken)
 router.post('/forget/password', forgetPassword)
 router.put('/reset/password/:token', resetPassword)
 router.put('/resend/otp/:token', resendOtp)
