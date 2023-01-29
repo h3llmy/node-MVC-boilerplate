@@ -38,21 +38,22 @@ export default function validate(object, rules) {
         }
         if (rule.min) {
           if (typeof value === 'number') {
-            if (value > rule.min) {
-              errors[key] = `${key} minimum length of ${rule.min}`
-            } else if (value.length > rule.min) {
+            if (value < rule.min) {
               errors[key] = `${key} minimum length of ${rule.min}`
             }
+          }
+          else if (value.length < rule.min) {
+            errors[key] = `${key} minimum length of ${rule.min}`
           }
         }
 
         if (rule.max) {
           if (typeof value === 'number') {
-            if (value < rule.max) {
-              errors[key] = `${key} maximum length of ${rule.max}`
-            } else if (value.length < rule.min) {
+            if (value > rule.max) {
               errors[key] = `${key} maximum length of ${rule.max}`
             }
+          } else if (value.length > rule.max) {
+            errors[key] = `${key} maximum length of ${rule.max}`
           }
         }
 
