@@ -64,7 +64,7 @@ export const createReport = async (req, res) => {
       )
     })
     examples.on('end', () => {
-      res.json(report)
+      res.json(successResponse(report))
     })
   } catch (error) {
     res.status(400).json(errorResponse(error))
