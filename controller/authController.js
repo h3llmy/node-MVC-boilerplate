@@ -36,7 +36,7 @@ export const register = async (req, res) => {
       password: req.body.password,
     })
 
-    const tokenEmail = await generateToken(
+    const tokenEmail = generateToken(
       {
         id: newUser.id,
         type: 'register',
@@ -83,7 +83,7 @@ export const resendOtp = async (req, res) => {
       throw new Error('user already register')
     }
 
-    const tokenEmail = await generateToken(
+    const tokenEmail = generateToken(
       {
         id: findUser.id,
         type: 'register',
@@ -122,7 +122,7 @@ export const updateStatus = async (req, res) => {
     validate(req.body, {
       otp: { required: true, type: String },
     })
-    const decoded = await decodeToken(req.params.token)
+    const decoded = decodeToken(req.params.token)
     if (decoded.type != 'register') {
       throw new Error('invalid token')
     }
@@ -171,7 +171,7 @@ export const login = async (req, res) => {
       throw new Error('Invalid username or password')
     }
 
-    const accessToken = await generateToken(
+    const accessToken = generateToken(
       {
         id: user._id,
         type: 'login',
@@ -179,7 +179,7 @@ export const login = async (req, res) => {
       '30s'
     )
 
-    const refreshToken = await generateRefreshToken(
+    const refreshToken = generateRefreshToken(
       {
         id: user._id,
         type: 'login',
@@ -209,7 +209,7 @@ export const forgetPassword = async (req, res) => {
       throw new Error('account is not active please activate your account')
     }
 
-    const tokenReset = await generateToken(
+    const tokenReset = generateToken(
       {
         id: findUser.id,
         type: 'reset password',
@@ -243,7 +243,7 @@ export const resetPassword = async (req, res) => {
     if (req.body.newPassword != req.body.confirmNewPassword) {
       throw new Error('password not match')
     }
-    const decoded = await decodeToken(req.params.token)
+    const decoded = decodeToken(req.params.token)
     if (decoded.type != 'reset password') {
       throw new Error('invalid token')
     }
@@ -269,17 +269,17 @@ export const refreshToken = async (req, res) => {
     validate(req.body, {
       refreshToken: { required: true, type: String }
     })
-    const decodedRefreshToken = await decodeRefreshToken(req.body.refreshToken)
+    const decodedRefreshToken = decodeRefreshToken(req.body.refreshToken)
     const userCheck = await User.findOne({ _id: decodedRefreshToken.id }).orFail(
       new Error('user not found')
     )
 
-    const newAccessToken = await generateToken({
+    const newAccessToken = generateToken({
       id: userCheck.id,
       type: 'login'
     }, '30s')
 
-    const newRefreshToken = await generateRefreshToken({
+    const newRefreshToken = generateRefreshToken({
       id: userCheck.id,
       type: 'login'
     }, '30d')
