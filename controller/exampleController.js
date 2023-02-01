@@ -135,7 +135,7 @@ export const removeFile = async (req, res) => {
       _id: req.params.file_id,
     }).orFail(new Error('example not found'))
 
-    await deleteFile(exampleFind.picture)
+    deleteFile(exampleFind.picture)
 
     exampleFind.picture = undefined
 

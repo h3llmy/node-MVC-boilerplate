@@ -2,16 +2,16 @@ const request = require("supertest")
 const baseURL = "http://127.0.0.1:3000/api/v1/"
 
 const value = {
-    example : "mantapssaqweqwswaaaaaaa"
-    }
+  example: "mantapssaqweqwswaaaaaaa"
+}
 
 const value2 = {
-    example: "mamsam"
-    }
+  example: "mamsam"
+}
 
 // test add data
 describe("POST /example /add", () => {
-    let id = ''
+  let id = ''
   it("should add an item to example", async () => {
     const response = await request(baseURL).post("/example/add").send(value);
     expect(response.statusCode).toBe(200)
