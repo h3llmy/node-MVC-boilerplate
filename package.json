@@ -4,6 +4,11 @@
   "description": "fast way to make rest api XD",
   "main": "index.js",
   "type": "module",
+  "author": {
+    "name": "helmi",
+    "email": "helmytrisna86@gmail.com"
+  },
+  "license": "ISC",
   "scripts": {
     "test": "jest",
     "create:controller": "node ./vendor/costomCommand/createController.js",
@@ -27,11 +32,6 @@
     "nodemailer": "^6.8.0",
     "redis": "^4.5.1"
   },
-  "author": {
-    "name": "helmi",
-    "email": "helmytrisna86@gmail.com"
-  },
-  "license": "ISC",
   "devDependencies": {
     "@babel/preset-env": "^7.20.2",
     "@faker-js/faker": "^7.6.0",

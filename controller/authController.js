@@ -1,5 +1,5 @@
 import sendMail from '../service/nodeMailler.js'
-import { successResponse, errorResponse } from '../vendor/response.js'
+import { successResponse } from '../vendor/response.js'
 import { decodeRefreshToken, decodeToken, generateRefreshToken, generateToken } from '../service/jwtToken.js'
 import User from '../model/userModel.js'
 import validate from '../vendor/validator.js'

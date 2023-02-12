@@ -8,7 +8,7 @@ try {
   const newinputName = inputName.replace(/^\w/, (c) => c.toUpperCase())
   const fileName = process.argv[2] + 'Controller.js'
   const fullPath = "'current', ../../controller/" + fileName
-  const fileContent = `import { successResponse, errorResponse } from "../vendor/response.js";
+  const fileContent = `import { successResponse } from "../vendor/response.js";
 
 import ${newinputName} from "../model/${inputName}Model.js";
 import { paginations } from "../vendor/pagination.js";
