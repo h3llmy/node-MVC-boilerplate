@@ -1,5 +1,6 @@
 import User from '../model/userModel.js'
 import { decodeToken } from '../service/jwtToken.js'
+import CustomError from '../vendor/customError.js'
 import { errorResponse } from '../vendor/response.js'
 
 export const auth = async (req, res, next) => {
@@ -29,7 +30,7 @@ export const auth = async (req, res, next) => {
       next()
     }
   } catch (error) {
-    res.status(401).json(errorResponse(error))
+    next(new CustomError(error, 401))
   }
 }
 
@@ -40,7 +41,7 @@ export const isAdmin = async (req, res, next) => {
     }
     next()
   } catch (error) {
-    res.status(401).json(errorResponse(error))
+    next(new CustomError(error, 401))
   }
 }
 
@@ -82,6 +83,6 @@ export const isPublic = async (req, res, next) => {
     }
     next()
   } catch (error) {
-    res.status(401).json(errorResponse(error))
+    next(new CustomError(error, 401))
   }
 }

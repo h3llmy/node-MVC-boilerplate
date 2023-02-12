@@ -1,12 +1,13 @@
-import { successResponse, errorResponse } from '../vendor/response.js'
+import { successResponse } from '../vendor/response.js'
 
 import Example from '../model/exampleModel.js'
 import { pageCount, paginations } from '../vendor/pagination.js'
 import { deleteFile, saveFile, uploadFile } from '../vendor/uploadFile.js'
 import validate from '../vendor/validator.js'
 import createCsv from '../vendor/createCsv.js'
+import CustomError from '../vendor/customError.js'
 
-export const add = async (req, res) => {
+export const add = async (req, res, next) => {
   try {
     validate(req.body, {
       example: { required: true, type: String },
@@ -29,17 +30,17 @@ export const add = async (req, res) => {
 
     res.json(successResponse(newValue))
   } catch (error) {
-    res.status(400).json(errorResponse(error))
+    next(error)
   }
 }
 
-export const list = async (req, res) => {
+export const list = async (req, res, next) => {
   try {
     const example = await Example.find(
       req.auth.filter,
       {},
       paginations(req.query)
-    )
+    ).orFail(new CustomError('example not found', 404))
 
     const totalPages = pageCount(
       req.query,
@@ -48,11 +49,11 @@ export const list = async (req, res) => {
 
     res.json(successResponse({ totalPages: totalPages, list: example }))
   } catch (error) {
-    res.status(400).json(errorResponse(error))
+    next(error)
   }
 }
 
-export const createReport = async (req, res) => {
+export const createReport = async (req, res, next) => {
   try {
     const fileName = 'report-' + Date.now()
     const examples = Example.find().cursor()
@@ -67,23 +68,23 @@ export const createReport = async (req, res) => {
       res.json(successResponse(report))
     })
   } catch (error) {
-    res.status(400).json(errorResponse(error))
+    next(error)
   }
 }
 
-export const detail = async (req, res) => {
+export const detail = async (req, res, next) => {
   try {
     const example = await Example.findOne({
-      userId: req.params.example_id,
-    }).orFail(new Error('Example not found'))
+      _id: req.params.example_id,
+    }).orFail(new CustomError('Example not found', 404))
 
     res.json(successResponse(example))
   } catch (error) {
-    res.status(400).json(errorResponse(error))
+    next(error)
   }
 }
 
-export const update = async (req, res) => {
+export const update = async (req, res, next) => {
   try {
     validate(req.body, {
       example: { required: true, type: String },
@@ -94,7 +95,7 @@ export const update = async (req, res) => {
     const file = uploadFile(req.files.picture, { gte: 10 })
     const example = await Example.findOne({
       _id: req.params.example_id,
-    }).orFail(new Error('Example not found'))
+    }).orFail(new CustomError('Example not found', 404))
 
     if (example.picture != file.filePath) {
       deleteFile(example.picture)
@@ -109,15 +110,15 @@ export const update = async (req, res) => {
 
     res.json(successResponse(updateExample, 'Example updated'))
   } catch (error) {
-    res.status(400).json(errorResponse(error))
+    next(error)
   }
 }
 
-export const remove = async (req, res) => {
+export const remove = async (req, res, next) => {
   try {
     const exampleData = await Example.findOne({
       _id: req.params.example_id,
-    }).orFail(new Error('Example not found'))
+    }).orFail(new CustomError('Example not found', 404))
 
     exampleData.deletedAt = new Date()
 
@@ -125,15 +126,15 @@ export const remove = async (req, res) => {
 
     res.json(successResponse(deleteExample, 'Example deleted'))
   } catch (error) {
-    res.status(400).json(errorResponse(error))
+    next(error)
   }
 }
 
-export const removeFile = async (req, res) => {
+export const removeFile = async (req, res, next) => {
   try {
     const exampleFind = await Example.findOne({
       _id: req.params.file_id,
-    }).orFail(new Error('example not found'))
+    }).orFail(new CustomError('example not found', 404))
 
     deleteFile(exampleFind.picture)
 
@@ -142,6 +143,6 @@ export const removeFile = async (req, res) => {
     exampleFind.save()
     res.json(successResponse(exampleFind))
   } catch (error) {
-    res.status(400).json(errorResponse(error))
+    next(error)
   }
 }

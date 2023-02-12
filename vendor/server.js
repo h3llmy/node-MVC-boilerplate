@@ -4,7 +4,7 @@ import router from '../route/route.js'
 import fileUpload from 'express-fileupload'
 import helmet from 'helmet'
 import corsMiddleware from '../middleware/corsMiddleware.js'
-
+import { errorHanddlerMiddleware } from '../middleware/errorHanddlerMiddleware.js'
 
 export default () => {
 
@@ -26,6 +26,8 @@ export default () => {
     app.use(corsMiddleware)
 
     app.use('/api/v1', router)
+
+    app.use(errorHanddlerMiddleware)
 
     return app
 }

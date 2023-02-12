@@ -81,6 +81,7 @@ export default function validate(object, rules) {
     let errorMessage = {}
     errorMessage.message = `error validations`
     errorMessage.path = errors
+    errorMessage.statusCode = 422
     throw errorMessage
   }
 }
