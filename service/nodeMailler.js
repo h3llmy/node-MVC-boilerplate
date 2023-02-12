@@ -17,7 +17,8 @@ export default async (emailHeader, path) => {
       },
     })
 
-    let sendMail
+    emailHeader.from = process.env.MAILLER_FROM_ADDRES
+
     if (path && typeof emailHeader.html == 'object') {
       let file = await fs.promises.readFile(
         `./vendor/emailTemplate/${path}`,
@@ -29,7 +30,7 @@ export default async (emailHeader, path) => {
       })
       emailHeader.html = file
     }
-    sendMail = await transporter.sendMail(emailHeader)
+    const sendMail = await transporter.sendMail(emailHeader)
     if (!sendMail) {
       return new Error('email not sended')
     }

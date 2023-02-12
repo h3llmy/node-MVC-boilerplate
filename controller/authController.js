@@ -47,7 +47,6 @@ export const register = async (req, res) => {
     await newUser.save()
 
     const emailHeader = {
-      from: 'Semua Kopi Indonesia <noreply@gmail.com>',
       to: newUser.email,
       subject: 'Activate Your Account',
       html: {
@@ -96,7 +95,6 @@ export const resendOtp = async (req, res) => {
     await findUser.save()
 
     const emailHeader = {
-      from: 'Semua Kopi Indonesia <noreply@gmail.com>',
       to: findUser.email,
       subject: 'Activate Your Account',
       html: {
@@ -218,7 +216,6 @@ export const forgetPassword = async (req, res) => {
     )
 
     const emailHeader = {
-      from: 'Semua Kopi Indonesia <noreply@gmail.com>',
       to: findUser.email,
       subject: 'Forget Your Password',
       html: {

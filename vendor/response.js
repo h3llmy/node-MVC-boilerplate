@@ -29,7 +29,7 @@ export const errorResponse = (message) => {
         ],
       }
     }
-    if (message.message.includes('error request validations')) {
+    if (message.message.includes('error validations')) {
       return message
     } else {
       return { message: message.message }

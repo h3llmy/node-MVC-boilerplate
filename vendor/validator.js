@@ -79,7 +79,7 @@ export default function validate(object, rules) {
   }
   if (Object.keys(errors).length > 0) {
     let errorMessage = {}
-    errorMessage.message = `error request validations`
+    errorMessage.message = `error validations`
     errorMessage.path = errors
     throw errorMessage
   }

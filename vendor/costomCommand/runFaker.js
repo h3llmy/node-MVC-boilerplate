@@ -18,7 +18,7 @@ try {
 
   console.log(
     '\x1b[34m%s\x1b[0m',
-    `faker ${scripts.map((str) => str.split('/')[1]).join(', ')} is running...`
+    `faker ${scripts.map((fileNames) => fileNames.split('/')[1]).join(', ')} is running...`
   )
   scripts.forEach((script) => {
     const child = spawn('node', [script])
