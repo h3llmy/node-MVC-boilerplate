@@ -5,6 +5,7 @@ import fileUpload from 'express-fileupload'
 import helmet from 'helmet'
 import corsMiddleware from '../middleware/corsMiddleware.js'
 import { errorHanddlerMiddleware } from '../middleware/errorHanddlerMiddleware.js'
+import compression from 'compression'
 
 export default () => {
 
@@ -14,6 +15,7 @@ export default () => {
         console.log('\x1b[34m%s\x1b[0m', `MongoDB connected: ${conn.connection.host}`)
     })
 
+    app.use(compression())
     app.use(helmet())
     app.use(fileUpload(), (req, res, next) => {
         if (!req.files) {

@@ -53,7 +53,7 @@ export const uploadFile = (file, filters) => {
     }
 
     const mime = file.mimetype.split('/')[0]
-    const fileName = +Date.now() + '-' + file.name
+    const fileName = Date.now() + '-' + file.name
     const filePath = process.env.BASE_URL + `${mime}/` + fileName
 
     return {
@@ -71,11 +71,15 @@ export const uploadFile = (file, filters) => {
 
 export const saveFile = (file) => {
   try {
-    file.file.mv(`public/${file.mimeType}/` + file.fileName)
+    const directory = `public/${file.mimeType}`;
+    if (!fs.existsSync(directory)) {
+      fs.mkdirSync(directory, { recursive: true });
+    }
+    file.file.mv(`${directory}/${file.fileName}`);
   } catch (error) {
-    throw new Error(error)
+    throw new Error(error);
   }
-}
+};
 
 export const deleteFile = (file) => {
   try {

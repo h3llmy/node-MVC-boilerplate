@@ -90,7 +90,7 @@ export const update = async (req, res, next) => {
       example: { required: true, type: String },
     })
     validate(req.files, {
-      picture: { required: true, type: Object },
+      picture: { type: Object },
     })
     const file = uploadFile(req.files.picture, { gte: 10 })
     const example = await Example.findOne({
