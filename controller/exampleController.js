@@ -60,7 +60,7 @@ export const createReport = async (req, res, next) => {
 
     let report
     examples.on('data', async (example) => {
-      report = await createCsv(fileName,
+      report = createCsv(fileName,
         { example: example.example, picture: example.picture, userId: example.userId.id, createdAt: example.createdAt }
       )
     })
@@ -106,7 +106,7 @@ export const update = async (req, res, next) => {
 
     const updateExample = await example.save()
 
-    await saveFile(file)
+    saveFile(file)
 
     res.json(successResponse(updateExample, 'Example updated'))
   } catch (error) {

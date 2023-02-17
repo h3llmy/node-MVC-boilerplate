@@ -5,8 +5,8 @@ describe("POST /example /add", () => {
   beforeAll(() => {
 
   });
-  it("should add an item to example", async () => {
-    const Request = await request(baseURL).get(`example/detail/aksjhdkajs`)
+  it("should get list example", async () => {
+    const Request = await request(baseURL).get(`example/list`)
     expect(Request.statusCode).toBe(200)
   });
 });

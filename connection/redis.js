@@ -12,9 +12,8 @@ const redisClient = redis.createClient({
 })
 
 redisClient.on('error', (err) => {
-  console.log('Redis', err)
+  console.log('\x1b[31m%s\x1b[0m', `Redis : ${err.message}`)
   redisClient.disconnect()
-  process.exit(1)
 })
 
 redisClient.on('connect', () => {
@@ -24,6 +23,6 @@ redisClient.on('connect', () => {
   )
 })
 
-await redisClient.connect()
+redisClient.connect()
 
 export default redisClient
