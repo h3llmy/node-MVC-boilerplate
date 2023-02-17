@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 import { emailCheck } from '../vendor/validator.js'
 import { comparePassword, hasPassword } from '../service/bcrypt.js'
+import softDeletePlugin from '../vendor/mongoosePlugin/softDelete.js'
 
 const userSchema = new mongoose.Schema(
   {
@@ -38,10 +39,7 @@ const userSchema = new mongoose.Schema(
     validator: {
       type: Number,
       default: 0,
-    },
-    deletedAt: {
-      type: Date,
-    },
+    }
   },
   {
     timestamps: true,
@@ -60,17 +58,7 @@ userSchema.methods.matchPassword = function (enteredPassword) {
   return comparePassword(enteredPassword, this.password)
 }
 
-userSchema.pre('countDocuments', function () {
-  this.where({ deletedAt: null })
-})
-
-userSchema.pre('find', function () {
-  this.where({ deletedAt: null })
-})
-
-userSchema.pre('findOne', function () {
-  this.where({ deletedAt: null })
-})
+userSchema.plugin(softDeletePlugin)
 
 const User = mongoose.model('user', userSchema)
 

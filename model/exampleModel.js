@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
 import mongoose_autopopulate from 'mongoose-autopopulate'
+import softDeletePlugin from '../vendor/mongoosePlugin/softDelete.js'
 
-const example = new mongoose.Schema(
+const exampleSchema = new mongoose.Schema(
   {
     example: {
       type: String,
@@ -21,29 +22,15 @@ const example = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    deletedAt: {
-      type: Date,
-    },
   },
   {
     timestamps: true,
   }
 )
 
-example.pre('countDocuments', function () {
-  this.where({ deletedAt: null })
-})
+exampleSchema.plugin(mongoose_autopopulate)
+exampleSchema.plugin(softDeletePlugin);
 
-example.pre('find', function () {
-  this.where({ deletedAt: null })
-})
-
-example.pre('findOne', function () {
-  this.where({ deletedAt: null })
-})
-
-example.plugin(mongoose_autopopulate)
-
-const Example = mongoose.model('example', example)
+const Example = mongoose.model('example', exampleSchema)
 
 export default Example

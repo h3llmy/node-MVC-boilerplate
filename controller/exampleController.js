@@ -116,14 +116,7 @@ export const update = async (req, res, next) => {
 
 export const remove = async (req, res, next) => {
   try {
-    const exampleData = await Example.findOne({
-      _id: req.params.example_id,
-    }).orFail(new CustomError('Example not found', 404))
-
-    exampleData.deletedAt = new Date()
-
-    const deleteExample = await exampleData.save()
-
+    const deleteExample = await Example.softDelete({ _id: req.params.example_id })
     res.json(successResponse(deleteExample, 'Example deleted'))
   } catch (error) {
     next(error)

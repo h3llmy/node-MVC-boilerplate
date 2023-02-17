@@ -6,6 +6,7 @@ import helmet from 'helmet'
 import corsMiddleware from '../middleware/corsMiddleware.js'
 import { errorHanddlerMiddleware } from '../middleware/errorHanddlerMiddleware.js'
 import compression from 'compression'
+import { auth } from '../middleware/authMiddleware.js'
 
 export default () => {
 
@@ -26,6 +27,7 @@ export default () => {
     app.use(express.json())
     app.use(express.static('public'))
     app.use(corsMiddleware)
+    app.use(auth)
 
     app.use('/api/v1', router)
 

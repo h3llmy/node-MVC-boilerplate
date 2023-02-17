@@ -9,6 +9,7 @@ try {
   const fileName = process.argv[2] + 'Model.js'
   const fullPath = "'current', ../../model/" + fileName
   const fileContent = `import mongoose from 'mongoose'
+import softDeletePlugin from '../vendor/mongoosePlugin/softDelete.js'
 
 const ${inputName}Schema = new mongoose.Schema(
   {
@@ -30,17 +31,7 @@ const ${inputName}Schema = new mongoose.Schema(
   }
 )
 
-${inputName}Schema.pre('countDocuments', function () {
-  this.where({ deletedAt: null })
-})
-
-${inputName}Schema.pre('find', function () {
-  this.where({ deletedAt: null })
-})
-
-${inputName}Schema.pre('findOne', function () {
-  this.where({ deletedAt: null })
-})
+${inputName}Schema.plugin(softDeletePlugin);
 
 const ${newinputName} = mongoose.model('${inputName}', ${inputName}Schema)
 

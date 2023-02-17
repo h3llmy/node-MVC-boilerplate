@@ -8,7 +8,7 @@ dotenv.config({ path: '../../.env' })
 connectMongoDB()
 
 try {
-  const totalData = 1000
+  const totalData = 100
   let examples = []
   const user = await User.find().orFail(new Error('user not found'))
   for (let i = 0; i < totalData; i++) {
