@@ -55,7 +55,7 @@ export const register = async (req, res, next) => {
       },
     }
 
-    await sendMail(emailHeader, 'otp.html')
+    sendMail(emailHeader, 'otp.html')
 
     res.json(successResponse({ token: tokenEmail }))
     setTimeout(async () => {
@@ -103,7 +103,7 @@ export const resendOtp = async (req, res, next) => {
       },
     }
 
-    await sendMail(emailHeader, 'otp.html')
+    sendMail(emailHeader, 'otp.html')
     res.json(successResponse({ token: tokenEmail }))
     setTimeout(async () => {
       const userCheck = await User.findOne({ _id: findUser.id })
@@ -224,7 +224,7 @@ export const forgetPassword = async (req, res, next) => {
         token: tokenReset,
       },
     }
-    await sendMail(emailHeader, 'forgetPassword.html')
+    sendMail(emailHeader, 'forgetPassword.html')
     await findUser.save()
     res.json(successResponse({ token: tokenReset }))
   } catch (error) {
