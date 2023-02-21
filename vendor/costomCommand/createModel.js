@@ -10,6 +10,7 @@ try {
   const fullPath = "'current', ../../model/" + fileName
   const fileContent = `import mongoose from 'mongoose'
 import softDeletePlugin from '../vendor/mongoosePlugin/softDelete.js'
+import paginatePlugin from '../vendor/mongoosePlugin/pagination.js'
 
 const ${inputName}Schema = new mongoose.Schema(
   {
@@ -32,6 +33,7 @@ const ${inputName}Schema = new mongoose.Schema(
 )
 
 ${inputName}Schema.plugin(softDeletePlugin);
+${inputName}Schema.plugin(paginatePlugin);
 
 const ${newinputName} = mongoose.model('${inputName}', ${inputName}Schema)
 

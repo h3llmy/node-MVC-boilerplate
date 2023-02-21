@@ -3,7 +3,7 @@ import cors from 'cors'
 
 dotenv.config()
 
-var appOrigin = process.env.CORS_ORIGIN
+let appOrigin = process.env.CORS_ORIGIN
 if (appOrigin) {
     appOrigin = appOrigin.replace(' ', '').split(',')
 }

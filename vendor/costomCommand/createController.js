@@ -11,7 +11,6 @@ try {
   const fileContent = `import { successResponse } from "../vendor/response.js";
 
 import ${newinputName} from "../model/${inputName}Model.js";
-import { paginations } from "../vendor/pagination.js";
 import validate from "../vendor/validator.js";
 import CustomError from '../vendor/customError.js';
 
@@ -32,12 +31,9 @@ export const add = async (req, res, next) => {
   
 export const list = async (req, res, next) => {
   try {
-    const ${inputName}Find = await ${newinputName}.find(req.auth.filter, {}, paginations(req.query))
-    .orFail(new CustomError('${newinputName} not found', 404))
+    const ${inputName}Find = await ${newinputName}.paginate(req.auth.filter, req.query)
 
-    const totalPages = pageCount(req.query, await ${newinputName}.countDocuments(req.auth.filter));
-
-    res.json(successResponse({totalPages : totalPages, list : ${inputName}Find}))
+    res.json(successResponse(${inputName}Find))
   } catch (error) {
     next(error)
   }

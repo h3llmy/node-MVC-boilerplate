@@ -1,7 +1,6 @@
 import { successResponse } from '../vendor/response.js'
 
 import Example from '../model/exampleModel.js'
-import { pageCount, paginations } from '../vendor/pagination.js'
 import { deleteFile, saveFile, uploadFile } from '../vendor/uploadFile.js'
 import validate from '../vendor/validator.js'
 import createCsv from '../vendor/createCsv.js'
@@ -36,18 +35,9 @@ export const add = async (req, res, next) => {
 
 export const list = async (req, res, next) => {
   try {
-    const example = await Example.find(
-      req.auth.filter,
-      {},
-      paginations(req.query)
-    ).orFail(new CustomError('example not found', 404))
+    const example = await Example.paginate(req.auth.filter, req.query)
 
-    const totalPages = pageCount(
-      req.query,
-      await Example.countDocuments(req.auth.filter)
-    )
-
-    res.json(successResponse({ totalPages: totalPages, list: example }))
+    res.json(successResponse(example))
   } catch (error) {
     next(error)
   }
@@ -61,7 +51,12 @@ export const createReport = async (req, res, next) => {
     let report
     examples.on('data', async (example) => {
       report = createCsv(fileName,
-        { example: example.example, picture: example.picture, userId: example.userId.id, createdAt: example.createdAt }
+        {
+          example: example.example,
+          picture: example.picture,
+          userId: example.userId.id,
+          createdAt: example.createdAt
+        }
       )
     })
     examples.on('end', () => {
@@ -101,8 +96,8 @@ export const update = async (req, res, next) => {
       deleteFile(example.picture)
     }
 
-    example.example = req.body.example || example.example
-    example.picture = file.filePath || example.picture
+    example.example = req.body.example
+    example.picture = file.filePath
 
     const updateExample = await example.save()
 
