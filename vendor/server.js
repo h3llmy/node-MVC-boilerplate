@@ -8,6 +8,7 @@ import { errorHanddlerMiddleware } from '../middleware/errorHanddlerMiddleware.j
 import compression from 'compression'
 import { auth } from '../middleware/authMiddleware.js'
 import rateLimiterMiddleware from '../middleware/rateLimiterMiddleware.js'
+import ExpressMongoSanitize from 'express-mongo-sanitize'
 
 export default () => {
 
@@ -17,6 +18,7 @@ export default () => {
         console.log('\x1b[34m%s\x1b[0m', `MongoDB connected: ${conn.connection.host}`)
     })
 
+    app.use(express.urlencoded({ extended: false }))
     app.use(compression())
     app.use(helmet())
     app.use(fileUpload(), (req, res, next) => {
@@ -27,6 +29,7 @@ export default () => {
     })
     app.use(express.json())
     app.use(express.static('public'))
+    app.use(ExpressMongoSanitize())
     app.use(corsMiddleware)
     app.use(auth)
     app.use(rateLimiterMiddleware)

@@ -3,13 +3,13 @@ import CustomError from "../customError.js";
 
 export default function softDeletePlugin(schema, options) {
     try {
-        const deletedSchema = new mongoose.Schema({
-            deletedAt: { type: Date },
-        }, { _id: false, versionKey: false });
-
-        schema.add(deletedSchema);
-
         schema.statics.softDelete = async function (docId) {
+            const deletedSchema = new mongoose.Schema({
+                deletedAt: { type: Date },
+            }, { _id: false, versionKey: false });
+
+            schema.add(deletedSchema);
+
             const schemaFind = await this.findOneAndUpdate(docId, {
                 deletedAt: new Date()
             }, { new: true })

@@ -22,9 +22,6 @@ const ${inputName}Schema = new mongoose.Schema(
     isActive : {
       type : Boolean,
       default : true
-    },
-    deletedAt: {
-      type: Date
     }
   },
   {
