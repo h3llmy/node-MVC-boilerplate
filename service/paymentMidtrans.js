@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import midtransClient from 'midtrans-client'
+import CustomError from '../vendor/customError'
 
 dotenv.config()
 
@@ -17,7 +18,7 @@ export const generatePayment = async (payload) => {
     }
     return transaction
   } catch (error) {
-    throw new Error(error)
+    throw new CustomError(error, error.httpStatusCode)
   }
 }
 
@@ -29,6 +30,6 @@ export const updatePayment = (payload) => {
     }
     return transactionStatus
   } catch (error) {
-    throw new Error(error)
+    throw new CustomError(error, error.httpStatusCode)
   }
 }

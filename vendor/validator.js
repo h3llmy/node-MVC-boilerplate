@@ -11,7 +11,7 @@ export const emailCheck = (email) => {
 // can start with 0 / +62
 // must number
 export const phoneCheck = (phone) => {
-  return Number(phone).match(/^(\+62|0)[0-9]{11,14}$/)
+  return String(phone).match(/^(\+62|0)[0-9]{11,14}$/)
 }
 
 // must url http:// / https://
@@ -28,12 +28,17 @@ export default function validate(object, rules) {
   for (const key in rules) {
     if (rules.hasOwnProperty(key)) {
       const rule = rules[key]
-      const value = object[key]
+      let value = object[key]
 
       if (rule.required && !value) {
         errors[key] = `${key} is required`
       } else {
-        if (value && rule.type && value.constructor !== rule.type) {
+        if (rule.type == Number) {
+          value = Number(value)
+          if (!value) {
+            errors[key] = `${key} should be of type ${rule.type.name}`
+          }
+        } else if (value && rule.type && value.constructor !== rule.type) {
           errors[key] = `${key} should be of type ${rule.type.name}`
         }
         if (rule.min) {
@@ -81,7 +86,7 @@ export default function validate(object, rules) {
     let errorMessage = {}
     errorMessage.message = `error validations`
     errorMessage.path = errors
-    errorMessage.statusCode = 422
+    errorMessage.statusCode = 400
     throw errorMessage
   }
 }

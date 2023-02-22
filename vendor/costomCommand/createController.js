@@ -60,7 +60,7 @@ export const update = async (req, res, next) => {
     const ${inputName}Find = await ${newinputName}.findOne({_id: req.params.${inputName}_id})
     .orFail(new CustomError('${newinputName} not found', 404))
 
-    ${inputName}Find.example = req.body.example || ${inputName}Find.example
+    ${inputName}Find.example = req.body.example
 
     const update${newinputName} = await ${inputName}Find.save()
 
@@ -72,14 +72,9 @@ export const update = async (req, res, next) => {
 
 export const remove = async (req, res, next) => {
   try {  
-    const ${inputName}Data = await ${newinputName}.findOne({ _id: req.params.${inputName}_id })
-    .orFail(new CustomError('${newinputName} not found', 404))
+    const ${inputName}Data = await ${newinputName}.softDelete({ _id: req.params.${inputName}_id })
 
-    ${inputName}Data.deletedAt = new Date()
-
-    const delete${newinputName} = await ${inputName}Data.save()
-
-    res.json(successResponse(delete${newinputName}, '${newinputName} deleted'))
+    res.json(successResponse(${inputName}Data, '${newinputName} deleted'))
   } catch (error) {
     next(error)
   }
