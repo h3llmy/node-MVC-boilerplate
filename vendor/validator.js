@@ -11,7 +11,7 @@ export const emailCheck = (email) => {
 // can start with 0 / +62
 // must number
 export const phoneCheck = (phone) => {
-  return String(phone).match(/^(\+62|0)[0-9]{11,14}$/)
+  return String(phone).match(/^(?:\+62|0)[2-9]\d{7,12}$/)
 }
 
 // must url http:// / https://
