@@ -6,11 +6,12 @@ export const auth = async (req, res, next) => {
   try {
     if (!req.headers.authorization) {
       delete req.query.isActive
+      const { limit, page, ...query } = req.query
       const status = {
         status: 'public',
         filter: {
           isActive: true,
-          ...req.query
+          ...query
         },
       }
       req.auth = status
@@ -32,8 +33,11 @@ export const auth = async (req, res, next) => {
           throw 'invalid authorization'
         }
         if (findUser.status != 'admin') {
+          delete req.query.isActive
+          const { limit, page, ...query } = req.query
           findUser.filter = {
             isActive: true,
+            ...query
           }
         }
 
