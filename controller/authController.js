@@ -45,8 +45,6 @@ export const register = async (req, res, next) => {
       '10m'
     )
 
-    await newUser.save()
-
     const emailHeader = {
       to: newUser.email,
       subject: 'Activate Your Account',
@@ -90,10 +88,6 @@ export const resendOtp = async (req, res, next) => {
       },
       '10m'
     )
-
-    findUser.token = randomOtp
-
-    await findUser.save()
 
     const emailHeader = {
       to: findUser.email,
@@ -268,6 +262,9 @@ export const refreshToken = async (req, res, next) => {
       refreshToken: { required: true, type: String }
     })
     const decodedRefreshToken = decodeRefreshToken(req.body.refreshToken)
+    if (decoded.type != 'login') {
+      throw new CustomError('invalid token', 401)
+    }
     const userCheck = await User.findOne({ _id: decodedRefreshToken.id }).orFail(
       new CustomError('user not found', 404)
     )

@@ -9,6 +9,8 @@ import compression from 'compression'
 import { auth } from '../middleware/authMiddleware.js'
 import rateLimiterMiddleware from '../middleware/rateLimiterMiddleware.js'
 import ExpressMongoSanitize from 'express-mongo-sanitize'
+import morgan from 'morgan'
+import fs from 'fs'
 
 export default () => {
 
@@ -18,9 +20,14 @@ export default () => {
         console.log('\x1b[34m%s\x1b[0m', `MongoDB connected: ${conn.connection.host}`)
     })
 
+    const accessLogStream = fs.createWriteStream('app.log', { flags: 'a' });
+
     app.use(express.urlencoded({ extended: false }))
     app.use(compression())
-    app.use(helmet())
+    app.use(morgan('combined', { stream: accessLogStream }))
+    app.use(helmet({
+        crossOriginResourcePolicy: { policy: 'cross-origin' },
+    }))
     app.use(fileUpload(), (req, res, next) => {
         if (!req.files) {
             req.files = {}
