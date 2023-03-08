@@ -16,6 +16,7 @@ if (!appOrigin || appOrigin == '' || appOrigin.length <= 0) {
 
 export default cors({
     origin: function (origin, callback) {
+        if (!appOrigin) return callback(null, true);
         if (appOrigin.indexOf(origin) !== -1) {
             callback(null, true)
         } else {
