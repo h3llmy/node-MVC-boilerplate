@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import cors from 'cors'
+import CustomError from '../vendor/customError.js'
 
 dotenv.config()
 
@@ -14,12 +15,11 @@ if (!appOrigin || appOrigin == '' || appOrigin.length <= 0) {
 }
 
 export default cors({
-    origin: (origin, callback) => {
-        if (!appOrigin || appOrigin == "[]") return callback(null, true);
-        if (appOrigin.indexOf(origin) === -1) {
-            const msg = 'The CORS policy for this site does not allow access from this Origin.';
-            return callback(new Error(msg), false);
+    origin: function (origin, callback) {
+        if (appOrigin.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new CustomError('The CORS policy for this site does not allow access from this Origin.Not allowed by CORS', 403))
         }
-        return callback(null, true);
     }
 });
