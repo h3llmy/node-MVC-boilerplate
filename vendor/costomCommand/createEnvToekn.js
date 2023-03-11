@@ -22,3 +22,4 @@ function changeEnvVariable(key) {
 
 changeEnvVariable("ACCESS_TOKEN_SECRET");
 changeEnvVariable("REFRESH_TOKEN_SECRET");
+console.log('\x1b[32m%s\x1b[0m', "Token geneated");

@@ -12,38 +12,35 @@ import ExpressMongoSanitize from 'express-mongo-sanitize'
 import morgan from 'morgan'
 import fs from 'fs'
 
-export default () => {
+const app = express()
 
-    const app = express()
+connectMongoDB().then(conn => {
+    console.log('\x1b[34m%s\x1b[0m', `MongoDB connected: ${conn.connection.host}`)
+})
 
-    connectMongoDB().then(conn => {
-        console.log('\x1b[34m%s\x1b[0m', `MongoDB connected: ${conn.connection.host}`)
-    })
+const accessLogStream = fs.createWriteStream('app.log', { flags: 'a' });
+app.use(morgan('combined', { stream: accessLogStream }))
 
-    const accessLogStream = fs.createWriteStream('app.log', { flags: 'a' });
+app.use(express.urlencoded({ extended: false }))
+app.use(compression())
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+}))
+app.use(fileUpload(), (req, res, next) => {
+    if (!req.files) {
+        req.files = {}
+    }
+    next()
+})
+app.use(express.json())
+app.use(express.static('public'))
+app.use(ExpressMongoSanitize())
+app.use(corsMiddleware)
+app.use(auth)
+app.use(rateLimiterMiddleware)
 
-    app.use(express.urlencoded({ extended: false }))
-    app.use(compression())
-    app.use(morgan('combined', { stream: accessLogStream }))
-    app.use(helmet({
-        crossOriginResourcePolicy: { policy: 'cross-origin' },
-    }))
-    app.use(fileUpload(), (req, res, next) => {
-        if (!req.files) {
-            req.files = {}
-        }
-        next()
-    })
-    app.use(express.json())
-    app.use(express.static('public'))
-    app.use(ExpressMongoSanitize())
-    app.use(corsMiddleware)
-    app.use(auth)
-    app.use(rateLimiterMiddleware)
+app.use('/api/v1', router)
 
-    app.use('/api/v1', router)
+app.use(errorHanddlerMiddleware)
 
-    app.use(errorHanddlerMiddleware)
-
-    return app
-}
+export default app

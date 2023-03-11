@@ -26,6 +26,7 @@ export default function paginatePlugin(schema, options) {
 
             return {
                 totalPages: totalPages,
+                currentPage: Number(query.page) || 1,
                 list: schemaFind
             }
         };

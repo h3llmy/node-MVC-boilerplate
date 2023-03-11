@@ -1,6 +1,6 @@
 import server from './vendor/server.js'
 
-const app = server()
+const app = server
 
 const port = process.env.PORT || 3000
 app.listen(port, () => {
