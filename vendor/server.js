@@ -1,5 +1,4 @@
 import express from 'express'
-import connectMongoDB from '../connection/mongoDB.js'
 import router from '../route/route.js'
 import fileUpload from 'express-fileupload'
 import helmet from 'helmet'
@@ -13,10 +12,6 @@ import morgan from 'morgan'
 import fs from 'fs'
 
 const app = express()
-
-connectMongoDB().then(conn => {
-    console.log('\x1b[34m%s\x1b[0m', `MongoDB connected: ${conn.connection.host}`)
-})
 
 const accessLogStream = fs.createWriteStream('app.log', { flags: 'a' });
 app.use(morgan('combined', { stream: accessLogStream }))

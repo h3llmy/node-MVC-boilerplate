@@ -73,13 +73,20 @@ export const resendOtp = async (req, res, next) => {
       .toString()
       .substring(1)
     const token = decodeToken(req.params.token)
-    const findUser = await User.findOne({ _id: token.id }).orFail(
-      new CustomError('user not found', 404)
-    )
+    if (token.type != 'register') {
+      throw new CustomError('invalid token', 422)
+    }
+    const findUser = await User.findOne({ _id: token.id })
+      .orFail(new CustomError('user not found', 404))
+
 
     if (findUser?.isActive == true) {
       throw new CustomError('user already register', 400)
     }
+
+    findUser.otp = randomOtp
+
+    findUser.save()
 
     const tokenEmail = generateToken(
       {
@@ -262,7 +269,7 @@ export const refreshToken = async (req, res, next) => {
       refreshToken: { required: true, type: String }
     })
     const decodedRefreshToken = decodeRefreshToken(req.body.refreshToken)
-    if (decoded.type != 'login') {
+    if (decodedRefreshToken.type != 'login') {
       throw new CustomError('invalid token', 401)
     }
     const userCheck = await User.findOne({ _id: decodedRefreshToken.id }).orFail(

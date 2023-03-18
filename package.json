@@ -10,7 +10,7 @@
   },
   "license": "ISC",
   "scripts": {
-    "test": "jest",
+    "test": "jest --watchAll",
     "create:controller": "node ./vendor/costomCommand/createController.js",
     "create:model": "node ./vendor/costomCommand/createModel.js",
     "create:route": "node ./vendor/costomCommand/createRoute.js",
@@ -43,6 +43,7 @@
     "child_process": "^1.0.2",
     "glob": "^8.0.3",
     "jest": "^29.4.2",
+    "mongodb-memory-server": "^8.12.1",
     "supertest": "^6.3.1"
   }
 }
