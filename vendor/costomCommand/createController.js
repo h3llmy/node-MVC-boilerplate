@@ -15,7 +15,7 @@ import validate from "../vendor/validator.js";
 import CustomError from '../vendor/customError.js';
 
 export const add = async (req, res, next) => {
-    try {
+
       validate(req.body, {
         example : {required: true, type: String}
       })
@@ -30,30 +30,21 @@ export const add = async (req, res, next) => {
   }
   
 export const list = async (req, res, next) => {
-  try {
     const ${inputName}Find = await ${newinputName}.paginate(req.auth.filter, req.query)
 
     res.json(successResponse(${inputName}Find))
-  } catch (error) {
-    next(error)
-  }
 }
 
 export const detail = async (req, res, next) => {
-  try {
     const ${inputName}Find = await ${newinputName}.findOne({
       _id: req.params.${inputName}_id
     })
     .orFail(new CustomError('${newinputName} not found', 404))
 
     res.json(successResponse(${inputName}Find))
-  } catch (error) {
-    next(error)
-  }
 }
 
 export const update = async (req, res, next) => {
-  try {
     validate(req.body, {
       example : {required: true, type: String}
     })
@@ -65,19 +56,12 @@ export const update = async (req, res, next) => {
     const update${newinputName} = await ${inputName}Find.save()
 
     res.json(successResponse(update${newinputName}, '${newinputName} updated'))
-  } catch (error) {
-    next(error)
-  }
 }
 
-export const remove = async (req, res, next) => {
-  try {  
+export const remove = async (req, res, next) => {  
     const ${inputName}Data = await ${newinputName}.softDelete({ _id: req.params.${inputName}_id })
 
     res.json(successResponse(${inputName}Data, '${newinputName} deleted'))
-  } catch (error) {
-    next(error)
-  }
 }`
 
   if (fs.existsSync(fullPath)) {
