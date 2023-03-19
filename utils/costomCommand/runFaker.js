@@ -2,6 +2,9 @@ import glob from 'glob'
 import { spawn } from 'child_process'
 
 try {
+  if (process.env.NODE_ENV !== 'development') {
+    throw 'on production mode'
+  }
   let scripts
   if (process.argv[2]) {
     if (process.argv[2].includes('Faker')) {

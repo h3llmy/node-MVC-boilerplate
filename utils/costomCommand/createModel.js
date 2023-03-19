@@ -1,6 +1,9 @@
 import fs from 'fs'
 
 try {
+  if (process.env.NODE_ENV !== 'development') {
+    throw 'on production mode'
+  }
   const inputName = process.argv[2]
   if (!process.argv[2]) {
     throw 'file name is required'
@@ -9,8 +12,8 @@ try {
   const fileName = process.argv[2] + 'Model.js'
   const fullPath = "'current', ../../model/" + fileName
   const fileContent = `import mongoose from 'mongoose'
-import softDeletePlugin from '../vendor/mongoosePlugin/softDelete.js'
-import paginatePlugin from '../vendor/mongoosePlugin/pagination.js'
+import softDeletePlugin from '../utils/mongoosePlugin/softDelete.js'
+import paginatePlugin from '../utils/mongoosePlugin/pagination.js'
 
 const ${inputName}Schema = new mongoose.Schema(
   {

@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import cors from 'cors'
-import CustomError from '../vendor/customError.js'
+import CustomError from '../utils/customError.js'
 
 dotenv.config()
 

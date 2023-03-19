@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import mongoose_autopopulate from 'mongoose-autopopulate'
-import paginatePlugin from '../vendor/mongoosePlugin/pagination.js'
-import softDeletePlugin from '../vendor/mongoosePlugin/softDelete.js'
+import paginatePlugin from '../utils/mongoosePlugin/pagination.js'
+import softDeletePlugin from '../utils/mongoosePlugin/softDelete.js'
 
 const exampleSchema = new mongoose.Schema(
   {

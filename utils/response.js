@@ -8,7 +8,9 @@ export const successResponse = (data, message) => {
 
 export const errorResponse = (message) => {
   delete message?.statusCode
-  console.log('\x1b[31m%s\x1b[0m', 'Error : ' + message.message, new Error().stack.replace("Error", ""));
+  if (process.env.NODE_ENV === 'development') {
+    console.log('\x1b[31m%s\x1b[0m', 'Error : ' + message.message, new Error().stack.replace("Error", ""));
+  }
   if (typeof message === 'string') {
     return { message: message }
   }

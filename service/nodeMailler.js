@@ -21,7 +21,7 @@ export default async (emailHeader, path) => {
 
     if (path && typeof emailHeader.html == 'object') {
       let file = await fs.promises.readFile(
-        `./vendor/emailTemplate/${path}`,
+        `./utils/emailTemplate/${path}`,
         'utf-8'
       )
       Object.entries(emailHeader.html).forEach(([key, value]) => {

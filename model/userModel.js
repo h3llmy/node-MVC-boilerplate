@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import { emailCheck } from '../vendor/validator.js'
+import { emailCheck } from '../utils/validator.js'
 import { comparePassword, hasPassword } from '../service/bcrypt.js'
-import softDeletePlugin from '../vendor/mongoosePlugin/softDelete.js'
+import softDeletePlugin from '../utils/mongoosePlugin/softDelete.js'
 
 const userSchema = new mongoose.Schema(
   {

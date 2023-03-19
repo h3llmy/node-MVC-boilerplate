@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import midtransClient from 'midtrans-client'
-import CustomError from '../vendor/customError'
+import CustomError from '../utils/customError.js'
 
 dotenv.config()
 

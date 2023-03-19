@@ -1,6 +1,9 @@
 import fs from 'fs'
 
 try {
+  if (process.env.NODE_ENV !== 'development') {
+    throw 'on production mode'
+  }
   const inputName = process.argv[2]
   const fileName = process.argv[2] + 'Route.js'
   const fullPath = "'current', ../../route/v1/" + fileName

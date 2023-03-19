@@ -1,6 +1,9 @@
 import fs from 'fs'
 
 try {
+  if (process.env.NODE_ENV !== 'development') {
+    throw 'on production mode'
+  }
   const inputName = process.argv[2]
   if (!process.argv[2]) {
     throw 'file name is required'

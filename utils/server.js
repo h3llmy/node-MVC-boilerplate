@@ -13,7 +13,7 @@ import fs from 'fs'
 
 const app = express()
 
-const accessLogStream = fs.createWriteStream('app.log', { flags: 'a' });
+const accessLogStream = fs.createWriteStream('storage/app.log', { flags: 'a' });
 app.use(morgan('combined', { stream: accessLogStream }))
 
 app.use(express.urlencoded({ extended: false }))
@@ -28,7 +28,7 @@ app.use(fileUpload(), (req, res, next) => {
     next()
 })
 app.use(express.json())
-app.use(express.static('public'))
+app.use(express.static('storage/public'))
 app.use(ExpressMongoSanitize())
 app.use(corsMiddleware)
 app.use(auth)

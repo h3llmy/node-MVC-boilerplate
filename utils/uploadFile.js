@@ -71,7 +71,7 @@ export const uploadFile = (file, filters) => {
 
 export const saveFile = (file) => {
   try {
-    const directory = `public/${file.mimeType}`;
+    const directory = `storage/public/${file.mimeType}`;
     if (!fs.existsSync(directory)) {
       fs.mkdirSync(directory, { recursive: true });
     }
@@ -84,14 +84,14 @@ export const saveFile = (file) => {
 export const deleteFile = (file) => {
   try {
     const path =
-      "'current', ../../public/" + file.split('/')[3] + '/' + file.split('/')[4]
+      "'current', ../../storage/public/" + file.split('/')[3] + '/' + file.split('/')[4]
     if (fs.existsSync(path)) {
       fs.unlink(path, (err) => {
         if (err) throw err
         return `file ${file.split('/')[4]} deleted`
       })
     } else {
-      return `file ${file.split('/')[4]} not found in : ${'public/' + file.split('/')[3] + '/' + file.split('/')[4]
+      return `file ${file.split('/')[4]} not found in : ${'storage/public/' + file.split('/')[3] + '/' + file.split('/')[4]
         }`
     }
   } catch (error) {

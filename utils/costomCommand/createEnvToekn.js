@@ -19,7 +19,10 @@ function changeEnvVariable(key) {
 
     fs.writeFileSync(".env", updatedLines.join("\n"), "utf8");
 }
-
-changeEnvVariable("ACCESS_TOKEN_SECRET");
-changeEnvVariable("REFRESH_TOKEN_SECRET");
-console.log('\x1b[32m%s\x1b[0m', "Token geneated");
+if (process.env.NODE_ENV === 'development') {
+    changeEnvVariable("ACCESS_TOKEN_SECRET");
+    changeEnvVariable("REFRESH_TOKEN_SECRET");
+    console.log('\x1b[32m%s\x1b[0m', "Token geneated");
+} else {
+    console.log('\x1b[31m%s\x1b[0m', 'on production mode');
+}

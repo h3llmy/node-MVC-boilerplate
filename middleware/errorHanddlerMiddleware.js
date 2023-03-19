@@ -1,4 +1,4 @@
-import { errorResponse } from "../vendor/response.js"
+import { errorResponse } from "../utils/response.js"
 
 export const errorHanddlerMiddleware = async (error, req, res, next) => {
     if (error) {

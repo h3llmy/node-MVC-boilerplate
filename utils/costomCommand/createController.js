@@ -1,6 +1,9 @@
 import fs from 'fs'
 
 try {
+  if (process.env.NODE_ENV !== 'development') {
+    throw 'on production mode'
+  }
   const inputName = process.argv[2]
   if (!process.argv[2]) {
     throw 'file name is required'
@@ -8,11 +11,11 @@ try {
   const newinputName = inputName.replace(/^\w/, (c) => c.toUpperCase())
   const fileName = process.argv[2] + 'Controller.js'
   const fullPath = "'current', ../../controller/" + fileName
-  const fileContent = `import { successResponse } from "../vendor/response.js";
+  const fileContent = `import { successResponse } from "../utils/response.js";
 
 import ${newinputName} from "../model/${inputName}Model.js";
-import validate from "../vendor/validator.js";
-import CustomError from '../vendor/customError.js';
+import validate from "../utils/validator.js";
+import CustomError from '../utils/customError.js';
 
 export const add = async (req, res, next) => {
 

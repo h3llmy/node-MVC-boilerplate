@@ -1,10 +1,10 @@
-import { successResponse } from '../vendor/response.js'
+import { successResponse } from '../utils/response.js'
 
 import Example from '../model/exampleModel.js'
-import { deleteFile, saveFile, uploadFile } from '../vendor/uploadFile.js'
-import validate from '../vendor/validator.js'
-import createCsv from '../vendor/createCsv.js'
-import CustomError from '../vendor/customError.js'
+import { deleteFile, saveFile, uploadFile } from '../utils/uploadFile.js'
+import validate from '../utils/validator.js'
+import createCsv from '../utils/createCsv.js'
+import CustomError from '../utils/customError.js'
 
 export const add = async (req, res, next) => {
   validate(req.body, {

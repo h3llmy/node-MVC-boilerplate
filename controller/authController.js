@@ -1,9 +1,9 @@
 import sendMail from '../service/nodeMailler.js'
-import { successResponse } from '../vendor/response.js'
+import { successResponse } from '../utils/response.js'
 import { decodeRefreshToken, decodeToken, generateRefreshToken, generateToken } from '../service/jwtToken.js'
 import User from '../model/userModel.js'
-import validate from '../vendor/validator.js'
-import CustomError from '../vendor/customError.js'
+import validate from '../utils/validator.js'
+import CustomError from '../utils/customError.js'
 
 export const register = async (req, res, next) => {
   validate(req.body, {

@@ -1,4 +1,4 @@
-import server from './vendor/server.js'
+import server from './utils/server.js'
 import connectMongoDB from './connection/mongoDB.js'
 
 connectMongoDB().then(conn => {
